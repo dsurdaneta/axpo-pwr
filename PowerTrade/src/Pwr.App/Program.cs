@@ -1,5 +1,9 @@
 ﻿using Axpo;
+using CsvHelper;
+using CsvHelper.Configuration;
 using Pwr.App.Models;
+using System.Globalization;
+using System.Text;
 
 namespace Pwr.App;
 
@@ -15,7 +19,7 @@ internal class Program
         var periodsCount = firstTrade.Periods.Count();
         Console.WriteLine($"Periods count: {periodsCount}");
 
-        var rows = new List<OutputDto>();
+        var rows = new List<OutputItemDto>();
 
         for (int i = 0; i < firstTrade.Periods.Length; i++)
         {
@@ -24,7 +28,25 @@ internal class Program
             var auxDate = new DateTime(requestedUtc.Year, requestedUtc.Month, requestedUtc.Day, requestedUtc.Hour, 0, 0);
             var periodAsDateTime = auxDate.AddHours(periodCounter);
             Console.WriteLine($"{periodCounter} - DateTime {periodAsDateTime} - Volume {calculatedVolume}");
-            rows.Add(new OutputDto { DateTime = periodAsDateTime, Volume = calculatedVolume });
+            rows.Add(new OutputItemDto { DateTime = periodAsDateTime, Volume = calculatedVolume });
+        }
+
+        try
+        {
+            Console.WriteLine("Writing to CSV...");
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
+            var datePart = requestedUtc.ToString(Constants.FileFormat);
+            var fileName = $"{Constants.FilePrefix}_{datePart}.csv";
+            using (var writer = new StreamWriter($"C:\\Users\\DanielUrdanetaOropez\\source\\{fileName}"))
+            using (var csv = new CsvWriter(writer, config))
+            {
+                csv.WriteRecords(rows);
+            }
+            Console.WriteLine($"File {fileName} created successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
         }
 
         Console.WriteLine("Press any key");
