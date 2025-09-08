@@ -8,8 +8,8 @@ internal class Program
     {
         try
         {
-            IPowerService service = new PowerService();
-            var requestedUtc = DateTime.UtcNow;
+            var requestedUtc = DateTime.UtcNow.AddDays(1); // should request the forcast for the next day
+            IPowerService service = new PowerService();            
             var trades = await service.GetTradesAsync(requestedUtc);
             Console.WriteLine($"Date Requested in UTC: {requestedUtc}");
             Console.WriteLine($"Trades count: {trades.Count()}");
