@@ -20,29 +20,41 @@ public class ExportService
         _logger = logger;
     }
 
-    public void GenerateReport(DateTime requestedUtc, List<OutputItemDto> rows)
+    public bool GenerateReport(DateTime requestedUtc, List<OutputItemDto> rows)
     {
+        if (rows == null || rows.Count == 0)
+        {
+            _logger.LogWarning("No data available to generate report for date {RequestedDate}", requestedUtc);
+            return false;
+        }
+
+        var datePart = requestedUtc.ToString(FileFormat);
+        var fileName = $"{FilePrefix}_{datePart}.csv";
+        var basePath = $"C:\\Users\\DanielUrdanetaOropez\\source";
+        _logger.LogInformation("Starting to write CSV report for date {RequestedDate}", requestedUtc);
+
         try
         {
             //TODO create output folder if does not exists
             //Delimiter as constant
             //Read from config
             //implement interface
-            _logger.LogInformation("Starting to write CSV report for date {RequestedDate}", requestedUtc);
+            
             var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = CsvDelimiter, Encoding = Encoding.UTF8 };
-            var datePart = requestedUtc.ToString(FileFormat);
-            var fileName = $"{FilePrefix}_{datePart}.csv";
-            var basePath = $"C:\\Users\\DanielUrdanetaOropez\\source";
+
             using (var writer = new StreamWriter($"{basePath}\\{fileName}"))
             using (var csv = new CsvWriter(writer, config))
             {
                 csv.WriteRecords(rows);
             }
+
             _logger.LogInformation("CSV report {FileName} created successfully", fileName);
+            return true;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while generating CSV report for date {RequestedDate}", requestedUtc);
+            return false;
         }
     }
 }
