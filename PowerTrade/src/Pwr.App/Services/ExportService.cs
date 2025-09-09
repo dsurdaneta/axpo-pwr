@@ -10,6 +10,9 @@ namespace Pwr.App.Services;
 public class ExportService
 {
     private const string CsvDelimiter = ";";
+    private const string FilePrefix = "PowerPosition";    
+    private const string FileFormat = "yyyyMMdd_yyyyMMddHHmm";
+
     private readonly ILogger<ExportService> _logger;
 
     public ExportService(ILogger<ExportService> logger)
@@ -27,8 +30,8 @@ public class ExportService
             //implement interface
             _logger.LogInformation("Starting to write CSV report for date {RequestedDate}", requestedUtc);
             var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = CsvDelimiter, Encoding = Encoding.UTF8 };
-            var datePart = requestedUtc.ToString(Constants.FileFormat);
-            var fileName = $"{Constants.FilePrefix}_{datePart}.csv";
+            var datePart = requestedUtc.ToString(FileFormat);
+            var fileName = $"{FilePrefix}_{datePart}.csv";
             var basePath = $"C:\\Users\\DanielUrdanetaOropez\\source";
             using (var writer = new StreamWriter($"{basePath}\\{fileName}"))
             using (var csv = new CsvWriter(writer, config))
