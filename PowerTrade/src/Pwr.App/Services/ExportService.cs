@@ -2,17 +2,14 @@
 using CsvHelper;
 using Microsoft.Extensions.Logging;
 using Pwr.App.Models;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Pwr.App.Services;
 
 public class ExportService
 {
+    private const string CsvDelimiter = ";";
     private readonly ILogger<ExportService> _logger;
 
     public ExportService(ILogger<ExportService> logger)
@@ -29,7 +26,7 @@ public class ExportService
             //Read from config
             //implement interface
             _logger.LogInformation("Starting to write CSV report for date {RequestedDate}", requestedUtc);
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = CsvDelimiter, Encoding = Encoding.UTF8 };
             var datePart = requestedUtc.ToString(Constants.FileFormat);
             var fileName = $"{Constants.FilePrefix}_{datePart}.csv";
             var basePath = $"C:\\Users\\DanielUrdanetaOropez\\source";
