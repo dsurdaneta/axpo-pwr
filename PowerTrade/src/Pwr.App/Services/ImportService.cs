@@ -1,5 +1,6 @@
 ﻿using Axpo;
 using Microsoft.Extensions.Logging;
+using Pwr.App.Models;
 
 namespace Pwr.App.Services;
 
@@ -40,5 +41,30 @@ public class ImportService
         }
 
         return trades;
+    }
+
+    public List<OutputItemDto> MapTrades(DateTime requestedUtc, IEnumerable<PowerTrade> trades)
+    {
+        var rows = new List<OutputItemDto>();
+        if (!trades.Any())
+        {
+            _logger.LogWarning("No trades retrieved for date {RequestedDate}", requestedUtc);
+            return rows;
+        }
+
+        var firstTrade = trades.FirstOrDefault();
+        var periodsCount = firstTrade.Periods.Count();
+        _logger.LogInformation("Periods count: {PeriodsCount} for date {RequestedDate}", periodsCount, requestedUtc);
+
+        for (int i = 0; i < firstTrade.Periods.Length; i++)
+        {
+            var calculatedVolume = trades.Sum(t => t.Periods[i].Volume);
+            var periodCounter = i + 1;
+            var auxDate = new DateTime(requestedUtc.Year, requestedUtc.Month, requestedUtc.Day, requestedUtc.Hour, 0, 0);
+            var periodAsDateTime = auxDate.AddHours(periodCounter);
+            rows.Add(new OutputItemDto { DateTime = periodAsDateTime, Volume = calculatedVolume });
+        }
+
+        return rows;
     }
 }
