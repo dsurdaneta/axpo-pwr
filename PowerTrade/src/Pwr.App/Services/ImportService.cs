@@ -8,19 +8,19 @@ public class ImportService
     private readonly ILogger<ImportService> _logger;
     private readonly IPowerService _powerService;
 
-    public ImportService(ILogger<ImportService> logger, PowerService powerService)
+    public ImportService(ILogger<ImportService> logger, IPowerService powerService)
     {
         _logger = logger;
         _powerService = powerService;
     }
 
-    public async Task<IEnumerable<PowerTrade>> GetForcastTradesFromExternalService()
+    public async Task<IEnumerable<PowerTrade>> GetForcastTradesFromExternalService(DateTime requestedUtc)
     {
         //TODO 
         //Read from config
         //implement interface
         //DST validation
-        var requestedUtc = DateTime.UtcNow.AddDays(1); // should request the forcast for the next day
+        //Dependency injection
         _logger.LogInformation("Starting to get trades from external service for date {RequestedDate}", requestedUtc);
 
         IEnumerable<PowerTrade> trades = new List<PowerTrade>();
