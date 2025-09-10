@@ -3,6 +3,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Pwr.App.Models;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 
 namespace Pwr.App;
@@ -11,16 +12,40 @@ internal class Program
 {
     static async Task Main(string[] args)
     {
+        string appEnvPath = Environment.CurrentDirectory;
+        string appDomainPath = AppDomain.CurrentDomain.BaseDirectory;
+        string execAssemblypPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        string entrycAssemblypPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        Console.WriteLine($"Environment Path: {appEnvPath}");
+        Console.WriteLine($"App Domain Path: {appDomainPath}");
+        Console.WriteLine($"Exec Assembly Path: {execAssemblypPath}");
+        Console.WriteLine($"Entry Assembly Path: {entrycAssemblypPath}");
+        Console.WriteLine();
+
         var requestedUtc = DateTime.UtcNow.AddDays(1); // should request the forcast for the next day
 
         IEnumerable<PowerTrade> trades = await GetTradesFromExternalService(requestedUtc);
+        var rows = MapTrades(requestedUtc, trades);
+
+        GenerateReport(requestedUtc, rows);
+
+        Console.WriteLine("Press any key");
+        Console.ReadLine();
+    }
+
+    private static List<OutputItemDto> MapTrades(DateTime requestedUtc, IEnumerable<PowerTrade> trades)
+    {
+        var rows = new List<OutputItemDto>();
+        if (!trades.Any())
+        {
+            Console.WriteLine("No trades retrieved. Exiting application.");
+            return rows;
+        }
 
         var firstTrade = trades.FirstOrDefault();
         var periodsCount = firstTrade.Periods.Count();
         Console.WriteLine($"Periods count: {periodsCount}");
-
-        var rows = new List<OutputItemDto>();
-
+        
         for (int i = 0; i < firstTrade.Periods.Length; i++)
         {
             var calculatedVolume = trades.Sum(t => t.Periods[i].Volume);
@@ -31,13 +56,23 @@ internal class Program
             rows.Add(new OutputItemDto { DateTime = periodAsDateTime, Volume = calculatedVolume });
         }
 
+        return rows;
+    }
+
+    private static void GenerateReport(DateTime requestedUtc, List<OutputItemDto> rows)
+    {
         try
         {
+            //TODO create output folder if does not exists
+            //Delimiter as constant
+            //Read from config
+            //add logs
             Console.WriteLine("Writing to CSV...");
             var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
             var datePart = requestedUtc.ToString(Constants.FileFormat);
             var fileName = $"{Constants.FilePrefix}_{datePart}.csv";
-            using (var writer = new StreamWriter($"C:\\Users\\DanielUrdanetaOropez\\source\\{fileName}"))
+            var basePath = $"C:\\Users\\DanielUrdanetaOropez\\source";
+            using (var writer = new StreamWriter($"{basePath}\\{fileName}"))
             using (var csv = new CsvWriter(writer, config))
             {
                 csv.WriteRecords(rows);
@@ -48,13 +83,13 @@ internal class Program
         {
             Console.WriteLine(ex.Message);
         }
-
-        Console.WriteLine("Press any key");
-        Console.ReadLine();
     }
 
     private static async Task<IEnumerable<PowerTrade>> GetTradesFromExternalService(DateTime requestedUtc)
     {
+        //TODO 
+        //Read from config
+        //add logs
         var trades = Enumerable.Empty<PowerTrade>();
         try
         {
