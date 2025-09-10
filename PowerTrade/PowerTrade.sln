@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2E4722E8-FAC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{C44C84EE-BE59-44CA-94F1-5CF990F1A32F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pwr.App", "src\Pwr.App\Pwr.App.csproj", "{79F25793-79AA-4984-9471-566E07FCABEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pwr.ConsoleApp", "src\Pwr.App\Pwr.ConsoleApp.csproj", "{79F25793-79AA-4984-9471-566E07FCABEF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PowerServiceDll", "PowerServiceDll", "{92DB0526-A7A6-498C-ABDB-259E6A17A223}"
 	ProjectSection(SolutionItems) = preProject
