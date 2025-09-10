@@ -1,6 +1,10 @@
 ﻿using Axpo;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Pwr.App.Models;
 using System.Globalization;
 using System.Reflection;
@@ -12,6 +16,9 @@ internal class Program
 {
     static async Task Main(string[] args)
     {
+        var host = CreateHostBuilder(args).Build();
+        //var requiredService = host.Services.GetRequiredService<ISomeServiceInterface>();
+
         string appEnvPath = Environment.CurrentDirectory;
         string appDomainPath = AppDomain.CurrentDomain.BaseDirectory;
         string execAssemblypPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -110,4 +117,23 @@ internal class Program
 
         return trades;
     }
+
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                config.SetBasePath(Directory.GetCurrentDirectory())
+                      .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                      .AddEnvironmentVariables();
+            }).ConfigureServices((context, services) =>
+            {
+                services.AddLogging(builder =>
+                {
+                    //On prod we can set a different log configuration
+                    builder.AddConsole();
+                    builder.SetMinimumLevel(LogLevel.Debug);
+                });
+
+                //TODO register solution services
+            });
 }
