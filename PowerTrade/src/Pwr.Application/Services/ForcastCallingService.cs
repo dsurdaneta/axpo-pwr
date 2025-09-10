@@ -16,7 +16,7 @@ public class ForcastCallingService : IForcastCallingService
         _powerService = powerService;
     }
 
-    public async Task<List<OutputItemDto>> GetForcastAsync(DateTime requestedUtc)
+    public async Task<IEnumerable<OutputItemDto>> GetForcastAsync(DateTime requestedUtc)
     {
         var rows = new List<OutputItemDto>();
         var trades = await GetTradesFromExternalServiceAsync(requestedUtc);
@@ -37,6 +37,8 @@ public class ForcastCallingService : IForcastCallingService
             var periodAsDateTime = auxDate.AddHours(periodCounter);
             rows.Add(new OutputItemDto { DateTime = periodAsDateTime, Volume = calculatedVolume });
         }
+
+        _logger.LogInformation("Rows {RowsCount} generated for {RequestedDate}", rows.Count, requestedUtc);
 
         return rows;
     }
