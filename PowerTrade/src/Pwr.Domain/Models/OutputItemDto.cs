@@ -1,4 +1,4 @@
-﻿namespace Pwr.App.Models;
+﻿namespace Pwr.Domain.Models;
 
 public class OutputItemDto
 {

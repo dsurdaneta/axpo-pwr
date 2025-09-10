@@ -1,14 +1,7 @@
-﻿using Axpo;
-using CsvHelper;
-using CsvHelper.Configuration;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Pwr.App.Models;
-using System.Globalization;
-using System.Reflection;
-using System.Text;
 
 namespace Pwr.App;
 
@@ -19,27 +12,30 @@ internal class Program
         var host = CreateHostBuilder(args).Build();
         //var requiredService = host.Services.GetRequiredService<ISomeServiceInterface>();
 
-        string appEnvPath = Environment.CurrentDirectory;
-        string appDomainPath = AppDomain.CurrentDomain.BaseDirectory;
-        string execAssemblypPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        string entrycAssemblypPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        Console.WriteLine($"Environment Path: {appEnvPath}");
-        Console.WriteLine($"App Domain Path: {appDomainPath}");
-        Console.WriteLine($"Exec Assembly Path: {execAssemblypPath}");
-        Console.WriteLine($"Entry Assembly Path: {entrycAssemblypPath}");
-        Console.WriteLine();
+        /*
+        //string appEnvPath = Environment.CurrentDirectory;
+        //string appDomainPath = AppDomain.CurrentDomain.BaseDirectory;
+        //string execAssemblypPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        //string entrycAssemblypPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        //Console.WriteLine($"Environment Path: {appEnvPath}");
+        //Console.WriteLine($"App Domain Path: {appDomainPath}");
+        //Console.WriteLine($"Exec Assembly Path: {execAssemblypPath}");
+        //Console.WriteLine($"Entry Assembly Path: {entrycAssemblypPath}");
+        //Console.WriteLine();
 
-        var requestedUtc = DateTime.UtcNow.AddDays(1); // should request the forcast for the next day
+        //var requestedUtc = DateTime.UtcNow.AddDays(1); // should request the forcast for the next day
 
-        IEnumerable<PowerTrade> trades = await GetTradesFromExternalService(requestedUtc);
-        var rows = MapTrades(requestedUtc, trades);
+        //IEnumerable<PowerTrade> trades = await GetTradesFromExternalService(requestedUtc);
+        //var rows = MapTrades(requestedUtc, trades);
 
-        GenerateReport(requestedUtc, rows);
+        //GenerateReport(requestedUtc, rows);
+        */
 
         Console.WriteLine("Press any key");
         Console.ReadLine();
     }
 
+    /*
     private static List<OutputItemDto> MapTrades(DateTime requestedUtc, IEnumerable<PowerTrade> trades)
     {
         var rows = new List<OutputItemDto>();
@@ -117,6 +113,7 @@ internal class Program
 
         return trades;
     }
+    */
 
     private static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)

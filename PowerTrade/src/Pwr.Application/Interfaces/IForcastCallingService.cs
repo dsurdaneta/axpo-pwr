@@ -1,6 +1,6 @@
-﻿using Pwr.App.Models;
+﻿using Pwr.Domain.Models;
 
-namespace Pwr.App.Services;
+namespace Pwr.Application.Interfaces;
 
 public interface IForcastCallingService
 {

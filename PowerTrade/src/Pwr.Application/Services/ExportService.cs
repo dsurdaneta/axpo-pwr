@@ -1,16 +1,17 @@
 ﻿using CsvHelper.Configuration;
 using CsvHelper;
 using Microsoft.Extensions.Logging;
-using Pwr.App.Models;
+using Pwr.Domain.Models;
 using System.Globalization;
 using System.Text;
+using Pwr.Application.Interfaces;
 
-namespace Pwr.App.Services;
+namespace Pwr.Application.Services;
 
-public class ExportService
+public class ExportService : IExportService
 {
     private const string CsvDelimiter = ";";
-    private const string FilePrefix = "PowerPosition";    
+    private const string FilePrefix = "PowerPosition";
     private const string FileFormat = "yyyyMMdd_yyyyMMddHHmm";
 
     private readonly ILogger<ExportService> _logger;
@@ -39,7 +40,7 @@ public class ExportService
             //Delimiter as constant
             //Read from config
             //implement interface
-            
+
             var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = CsvDelimiter, Encoding = Encoding.UTF8 };
 
             using (var writer = new StreamWriter($"{basePath}\\{fileName}"))

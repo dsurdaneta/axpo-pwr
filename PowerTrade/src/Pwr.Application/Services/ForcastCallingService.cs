@@ -1,8 +1,9 @@
 ﻿using Axpo;
 using Microsoft.Extensions.Logging;
-using Pwr.App.Models;
+using Pwr.Application.Interfaces;
+using Pwr.Domain.Models;
 
-namespace Pwr.App.Services;
+namespace Pwr.Application.Services;
 
 public class ForcastCallingService : IForcastCallingService
 {
@@ -13,7 +14,7 @@ public class ForcastCallingService : IForcastCallingService
     {
         _logger = logger;
         _powerService = powerService;
-    }    
+    }
 
     public async Task<List<OutputItemDto>> GetForcastAsync(DateTime requestedUtc)
     {

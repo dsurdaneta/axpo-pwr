@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Pwr.Application\Pwr.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="PowerService">
       <HintPath>..\..\assets\PowerServiceDll\PowerService.dll</HintPath>
     </Reference>

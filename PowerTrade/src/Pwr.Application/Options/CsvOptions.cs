@@ -1,4 +1,4 @@
-﻿namespace Pwr.App.Options;
+﻿namespace Pwr.Application.Options;
 
 public class CsvOptions
 {
