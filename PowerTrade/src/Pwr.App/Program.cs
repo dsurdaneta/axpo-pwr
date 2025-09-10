@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Pwr.Application;
 
 namespace Pwr.ConsoleApp;
 
@@ -131,6 +132,7 @@ internal class Program
                     builder.SetMinimumLevel(LogLevel.Debug);
                 });
 
-                //TODO register solution services
+                //register solution services
+                services.AddApplicationServices(context.Configuration);
             });
 }
