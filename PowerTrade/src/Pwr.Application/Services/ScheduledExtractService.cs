@@ -91,7 +91,8 @@ public class ScheduledExtractService : BackgroundService, IScheduledExtractServi
 
     private async Task PerformExtractWithRetry()
     {
-        var requestedUtc = DateTime.UtcNow;
+        // should request the forcast for the next day
+        var requestedUtc = DateTime.UtcNow.AddDays(1); 
         var attempt = 0;
         var success = false;
         var maxRetryAttempts = _extractOptions.CurrentValue.MaxRetryAttempts;
@@ -115,7 +116,7 @@ public class ScheduledExtractService : BackgroundService, IScheduledExtractServi
                     
                     if (attempt < maxRetryAttempts)
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(retryDelaySeconds));
+                        await RetryWithDelay(retryDelaySeconds);
                         continue;
                     }
                     else
@@ -130,8 +131,8 @@ public class ScheduledExtractService : BackgroundService, IScheduledExtractServi
                 
                 if (reportGenerated)
                 {
-                    _logger.LogInformation("Extract completed successfully for {RequestedUtc} on attempt {Attempt}", requestedUtc, attempt);
                     _lastExtractTime = DateTime.UtcNow;
+                    _logger.LogInformation("Extract completed successfully for {RequestedUtc} on attempt {Attempt} at {LastExtractTime}", requestedUtc, attempt, _lastExtractTime);                   
                     success = true;
                 }
                 else
@@ -140,7 +141,7 @@ public class ScheduledExtractService : BackgroundService, IScheduledExtractServi
                     
                     if (attempt < maxRetryAttempts)
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(retryDelaySeconds));
+                        await RetryWithDelay(retryDelaySeconds);
                     }
                 }
             }
@@ -150,8 +151,7 @@ public class ScheduledExtractService : BackgroundService, IScheduledExtractServi
                 
                 if (attempt < maxRetryAttempts)
                 {
-                    _logger.LogInformation("Retrying in {RetryDelay} seconds...", retryDelaySeconds);
-                    await Task.Delay(TimeSpan.FromSeconds(retryDelaySeconds));
+                    await RetryWithDelay(retryDelaySeconds);
                 }
                 else
                 {
@@ -164,6 +164,12 @@ public class ScheduledExtractService : BackgroundService, IScheduledExtractServi
         {
             _logger.LogCritical("CRITICAL: Extract failed after all retry attempts for {RequestedUtc}. Manual intervention may be required.", requestedUtc);
         }
+    }
+
+    private async Task RetryWithDelay(int retryDelaySeconds)
+    {
+        _logger.LogInformation("Retrying in {RetryDelay} seconds...", retryDelaySeconds);
+        await Task.Delay(TimeSpan.FromSeconds(retryDelaySeconds));
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
