@@ -5,14 +5,17 @@ using Pwr.Domain.Models;
 using System.Globalization;
 using System.Text;
 using Pwr.Application.Interfaces;
+using Microsoft.Extensions.Options;
+using Pwr.Application.Options;
 
 namespace Pwr.Application.Services;
 
-public class ExportService(ILogger<ExportService> logger) : IExportService
+public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<ExtractTradesOptions> options) : IExportService
 {
     internal const string CsvDelimiter = ";";
     internal const string FilePrefix = "PowerPosition";
     internal const string FileFormat = "yyyyMMdd_yyyyMMddHHmm";
+    internal const string DefaultFolderPath = "C:\\CsvFiles\\";
 
     public bool GenerateReport(DateTime requestedUtc, List<InputItemDto> inputItems)
     {
@@ -22,15 +25,13 @@ public class ExportService(ILogger<ExportService> logger) : IExportService
             return false;
         }
         
-        var basePath = $"C:\\Users\\DanielUrdanetaOropez\\source";
+        var basePath = options.CurrentValue.FolderPath ?? DefaultFolderPath;
         logger.LogInformation("Starting to write CSV report for date {RequestedDate}", requestedUtc);
 
         try
         {
             //TODO
             //create output folder if does not exists
-            //Read from config
-            //if config valu is null use constant defalt
             var datePart = requestedUtc.ToString(FileFormat);
             var fileName = $"{FilePrefix}_{datePart}.csv";
 
