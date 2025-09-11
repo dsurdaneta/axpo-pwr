@@ -8,16 +8,16 @@ using Shouldly;
 
 namespace Pwr.UnitTests.Infrastructure;
 
-public class ForcastCallingServiceTests
+public class ForecastCallingServiceTests
 {
     private readonly IPowerService _powerServiceMock;
-    private readonly ForcastCallingService _service;
+    private readonly ForecastCallingService _service;
 
-    public ForcastCallingServiceTests()
+    public ForecastCallingServiceTests()
     {
-        var loggerMock = NullLogger<ForcastCallingService>.Instance;
+        var loggerMock = NullLogger<ForecastCallingService>.Instance;
         _powerServiceMock = Substitute.For<IPowerService>();
-        _service = new ForcastCallingService(loggerMock, _powerServiceMock);
+        _service = new ForecastCallingService(loggerMock, _powerServiceMock);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class ForcastCallingServiceTests
         _powerServiceMock.GetTradesAsync(requestedDate).Returns(trades);
 
         // Act
-        var result = await _service.GetForcastAsync(requestedDate);
+        var result = await _service.GetForecastAsync(requestedDate);
 
         // Assert
         result.ShouldNotBeNull();
@@ -51,7 +51,7 @@ public class ForcastCallingServiceTests
         _powerServiceMock.GetTradesAsync(requestedDate).Returns([]);
 
         // Act
-        var result = await _service.GetForcastAsync(requestedDate);
+        var result = await _service.GetForecastAsync(requestedDate);
 
         // Assert
         result.ShouldNotBeNull();
@@ -84,7 +84,7 @@ public class ForcastCallingServiceTests
         _powerServiceMock.GetTradesAsync(requestedDate).Returns([trade]);
 
         // Act
-        var result = await _service.GetForcastAsync(requestedDate);
+        var result = await _service.GetForecastAsync(requestedDate);
 
         // Assert
         result.ShouldNotBeNull();
@@ -105,7 +105,7 @@ public class ForcastCallingServiceTests
         _powerServiceMock.GetTradesAsync(requestedDate).Returns([trade]);
 
         // Act
-        var result = await _service.GetForcastAsync(requestedDate);
+        var result = await _service.GetForecastAsync(requestedDate);
 
         // Assert
         result.ShouldNotBeNull();
@@ -125,7 +125,7 @@ public class ForcastCallingServiceTests
         _powerServiceMock.GetTradesAsync(requestedDate).Returns([trade]);
 
         // Act
-        var result = await _service.GetForcastAsync(requestedDate);
+        var result = await _service.GetForecastAsync(requestedDate);
 
         // Assert
         result.ShouldNotBeNull();
@@ -148,7 +148,7 @@ public class ForcastCallingServiceTests
         _powerServiceMock.GetTradesAsync(requestedDate).Returns([trade]);
 
         // Act
-        var result = await _service.GetForcastAsync(requestedDate);
+        var result = await _service.GetForecastAsync(requestedDate);
 
         // Assert
         result.ShouldNotBeNull();
@@ -168,7 +168,7 @@ public class ForcastCallingServiceTests
         _powerServiceMock.GetTradesAsync(requestedDate).Returns([trade]);
 
         // Act
-        var result = await _service.GetForcastAsync(requestedDate);
+        var result = await _service.GetForecastAsync(requestedDate);
 
         // Assert
         result.ShouldNotBeNull();

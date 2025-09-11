@@ -8,11 +8,11 @@ namespace Pwr.Application.Services;
 
 public class ExtractService(
     ILogger<ExtractService> logger,
-    IForcastCallingService forcastCallingService,
+    IForecastCallingService forcastCallingService,
     IExportService exportService) : IExtractService
 {
     private readonly ILogger<ExtractService> _logger = logger;
-    private readonly IForcastCallingService _forcastCallingService = forcastCallingService;
+    private readonly IForecastCallingService _forcastCallingService = forcastCallingService;
     private readonly IExportService _exportService = exportService;
 
     public async Task<ExtractResult> PerformExtractAsync(ExtractContext context, CancellationToken cancellationToken = default)
@@ -24,7 +24,7 @@ public class ExtractService(
         try
         {
             // Get forecast data
-            var forecastList = await _forcastCallingService.GetForcastAsync(context.RequestedUtc);
+            var forecastList = await _forcastCallingService.GetForecastAsync(context.RequestedUtc);
 
             if (forecastList.Count == 0)
             {

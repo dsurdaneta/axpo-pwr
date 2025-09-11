@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Pwr.UnitTests")]
 namespace Pwr.Infrastructure.Services;
 
-public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPowerService powerService) : IForcastCallingService
+public class ForecastCallingService(ILogger<ForecastCallingService> logger, IPowerService powerService) : IForecastCallingService
 {
-    public async Task<List<InputItemDto>> GetForcastAsync(DateTime requestedUtc)
+    public async Task<List<InputItemDto>> GetForecastAsync(DateTime requestedUtc)
     {
         var rows = new List<InputItemDto>();
         var trades = await GetTradesFromExternalServiceAsync(requestedUtc);

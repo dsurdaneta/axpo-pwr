@@ -17,7 +17,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IPowerService, PowerService>();
 
         // Register Infrastructure services
-        services.AddScoped<IForcastCallingService, ForcastCallingService>();
+        services.AddScoped<IForecastCallingService, ForecastCallingService>();
         services.AddScoped<IExportService, ExportService>();
 
         return services;
