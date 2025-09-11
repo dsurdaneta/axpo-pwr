@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Pwr.Application.Interfaces;
 using Pwr.Application.Options;
-using Pwr.Domain.Models;
 
 namespace Pwr.Application.Services;
 

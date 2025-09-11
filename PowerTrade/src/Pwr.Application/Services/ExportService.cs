@@ -7,7 +7,6 @@ using System.Text;
 using Pwr.Application.Interfaces;
 using Microsoft.Extensions.Options;
 using Pwr.Application.Options;
-using System.IO;
 
 namespace Pwr.Application.Services;
 
@@ -31,12 +30,12 @@ public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<Extrac
 
         try
         {
-            // Try to create the directory.
-            logger.LogInformation("Ensuring the output directory exists at path: {BasePath}", basePath);
-            var di = Directory.CreateDirectory(basePath);
-
             var datePart = requestedUtc.ToString(FileFormat);
             var fileName = $"{FilePrefix}_{datePart}.csv";
+
+            // Try to create the directory.
+            logger.LogInformation("Ensuring the output directory exists at path: {BasePath}", basePath);
+            _ = Directory.CreateDirectory(basePath);
 
             var rows = inputItems.Select(OutputItemDto.FromInputItemDto).ToList();
 
