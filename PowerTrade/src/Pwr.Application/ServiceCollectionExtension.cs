@@ -11,11 +11,15 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<CsvOptions>(configuration.GetSection(CsvOptions.SectionName));
+        services.Configure<ExtractTradesOptions>(configuration.GetSection(ExtractTradesOptions.SectionName));
 
         services.AddScoped<IPowerService, PowerService>();
         services.AddScoped<IForcastCallingService, ForcastCallingService>();
         services.AddScoped<IExportService, ExportService>();
+        
+        // Register the background service
+        services.AddHostedService<ScheduledExtractService>();
+        services.AddScoped<IScheduledExtractService, ScheduledExtractService>();
 
         return services;
     }

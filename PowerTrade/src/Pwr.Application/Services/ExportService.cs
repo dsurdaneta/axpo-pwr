@@ -10,9 +10,9 @@ namespace Pwr.Application.Services;
 
 public class ExportService(ILogger<ExportService> logger) : IExportService
 {
-    private const string CsvDelimiter = ";";
-    private const string FilePrefix = "PowerPosition";
-    private const string FileFormat = "yyyyMMdd_yyyyMMddHHmm";
+    internal const string CsvDelimiter = ";";
+    internal const string FilePrefix = "PowerPosition";
+    internal const string FileFormat = "yyyyMMdd_yyyyMMddHHmm";
 
     public bool GenerateReport(DateTime requestedUtc, List<InputItemDto> inputItems)
     {
