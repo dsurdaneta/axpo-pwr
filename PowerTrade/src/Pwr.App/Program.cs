@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pwr.Application;
+using Pwr.Infrastructure;
 
 namespace Pwr.ConsoleApp;
 
@@ -136,6 +137,7 @@ internal class Program
                 });
 
                 //register solution services
-                services.AddApplicationServices(context.Configuration);
+                services.AddInfrastructureServices(context.Configuration)
+                        .AddApplicationServices(context.Configuration);
             });
 }

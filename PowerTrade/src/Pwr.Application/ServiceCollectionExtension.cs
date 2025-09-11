@@ -17,8 +17,6 @@ public static class ServiceCollectionExtension
         services.AddScoped<IPowerService, PowerService>();
 
         // Register application services
-        services.AddScoped<IForcastCallingService, ForcastCallingService>();
-        services.AddScoped<IExportService, ExportService>();
         services.AddScoped<IExtractService, ExtractService>();
         services.AddScoped<IRetryService, RetryService>();
         services.AddScoped<ITimerService, TimerService>();
