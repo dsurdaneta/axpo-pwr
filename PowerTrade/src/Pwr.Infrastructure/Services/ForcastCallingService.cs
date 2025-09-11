@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Pwr.Domain.Models;
 using Pwr.Infrastructure.Interfaces;
 
+[assembly: InternalsVisibleTo("Pwr.UnitTests")]
 namespace Pwr.Infrastructure.Services;
 
 public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPowerService powerService) : IForcastCallingService

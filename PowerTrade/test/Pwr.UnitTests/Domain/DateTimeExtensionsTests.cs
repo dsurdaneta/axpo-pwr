@@ -1,4 +1,5 @@
 ﻿using Pwr.Domain;
+using Shouldly;
 
 namespace Pwr.UnitTests.Domain;
 
@@ -15,7 +16,7 @@ public class DateTimeExtensionsTests
         var result = localDateTime.ToUniversalIso8601string();
 
         // Assert
-        Assert.Equal(expected, result);
+        result.ShouldBe(expected);
     }
 
     [Fact]
@@ -29,6 +30,6 @@ public class DateTimeExtensionsTests
         var result = utcDateTime.ToUniversalIso8601string();
 
         // Assert
-        Assert.Equal(expected, result);
+        result.ShouldBe(expected);
     }
 }
