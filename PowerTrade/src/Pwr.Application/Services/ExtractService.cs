@@ -6,6 +6,12 @@ using Pwr.Infrastructure.Interfaces;
 
 namespace Pwr.Application.Services;
 
+/// <summary>
+/// Service responsible for performing the extract operation. Handles the actual extract logic
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="forcastCallingService">External service to obtain forcasted power trades</param>
+/// <param name="exportService">Service to generate reports</param>
 public class ExtractService(
     ILogger<ExtractService> logger,
     IForecastCallingService forcastCallingService,
@@ -15,6 +21,12 @@ public class ExtractService(
     private readonly IForecastCallingService _forcastCallingService = forcastCallingService;
     private readonly IExportService _exportService = exportService;
 
+    /// <summary>
+    /// Extracts forecast data generating a report.
+    /// </summary>
+    /// <param name="context">Context information for data extraction operations</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async Task<ExtractResult> PerformExtractAsync(ExtractContext context, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(

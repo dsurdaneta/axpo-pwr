@@ -3,6 +3,10 @@ using Pwr.Application.Interfaces;
 
 namespace Pwr.Application.Services;
 
+/// <summary>
+/// Manages timer operations and thread safety
+/// </summary>
+/// <param name="logger"></param>
 public class TimerService(ILogger<TimerService> logger) : ITimerService
 {
     private readonly ILogger<TimerService> _logger = logger;

@@ -1,5 +1,8 @@
 namespace Pwr.Application.Models;
 
+/// <summary>
+/// Context information for data extraction operations. Centralized configuration for retries and correlation.
+/// </summary>
 public class ExtractContext
 {
     public DateTime RequestedUtc { get; init; }

@@ -7,29 +7,33 @@ using Pwr.Application.Options;
 
 namespace Pwr.Application.Services;
 
-public class ScheduledExtractService : BackgroundService, IScheduledExtractService
+/// <summary>
+/// A hosted service that performs scheduled data extracts at configured intervals. H handles scheduling and orchestration.
+/// </summary>
+/// <param name="logger">Handles logs</param>
+/// <param name="extractService">Handles the actual extract logic</param>
+/// <param name="retryService">Handles the actual extract logic</param>
+/// <param name="timerService">Manages timer operations and thread safety</param>
+/// <param name="extractOptions"></param>
+public class ScheduledExtractService(
+    ILogger<ScheduledExtractService> logger,
+    IExtractService extractService,
+    IRetryService retryService,
+    ITimerService timerService,
+    IOptionsMonitor<ExtractTradesOptions> extractOptions) : BackgroundService, IScheduledExtractService
 {
-    private readonly ILogger<ScheduledExtractService> _logger;
-    private readonly IExtractService _extractService;
-    private readonly IRetryService _retryService;
-    private readonly ITimerService _timerService;
-    private readonly IOptionsMonitor<ExtractTradesOptions> _extractOptions;
+    private readonly ILogger<ScheduledExtractService> _logger = logger;
+    private readonly IExtractService _extractService = extractService;
+    private readonly IRetryService _retryService = retryService;
+    private readonly ITimerService _timerService = timerService;
+    private readonly IOptionsMonitor<ExtractTradesOptions> _extractOptions = extractOptions;
     private DateTime _lastExtractTime = DateTime.MinValue;
 
-    public ScheduledExtractService(
-        ILogger<ScheduledExtractService> logger,
-        IExtractService extractService,
-        IRetryService retryService,
-        ITimerService timerService,
-        IOptionsMonitor<ExtractTradesOptions> extractOptions)
-    {
-        _logger = logger;
-        _extractService = extractService;
-        _retryService = retryService;
-        _timerService = timerService;
-        _extractOptions = extractOptions;
-    }
-
+    /// <summary>
+    /// ExecuteAsync is called when the Hosted Service starts.  handles scheduling and orchestration of the extract process.
+    /// </summary>
+    /// <param name="stoppingToken"></param>
+    /// <returns></returns>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("ScheduledExtractService started");

@@ -4,10 +4,23 @@ using Pwr.Application.Models;
 
 namespace Pwr.Application.Services;
 
+/// <summary>
+/// Handles retry logic with configurable strategies.
+/// </summary>
+/// <param name="logger"></param>
 public class RetryService(ILogger<RetryService> logger) : IRetryService
 {
     private readonly ILogger<RetryService> _logger = logger;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T">The type of reult</typeparam>
+    /// <param name="operation">The operation to excecute</param>
+    /// <param name="successCondition">Indicates whether the result was successful</param>
+    /// <param name="context">Centralized configuration for retries and correlation</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async Task<ExtractResult> ExecuteWithRetryAsync<T>(
         Func<Task<T>> operation,
         Func<T, bool> successCondition,

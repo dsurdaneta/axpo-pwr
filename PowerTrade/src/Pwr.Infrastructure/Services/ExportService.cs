@@ -10,6 +10,11 @@ using Pwr.Infrastructure.Options;
 
 namespace Pwr.Infrastructure.Services;
 
+/// <summary>
+/// Handles the generation of CSV reports.
+/// </summary>
+/// <param name="logger"></param>
+/// <param name="options"></param>
 public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<CsvOptions> options) : IExportService
 {
     internal const string CsvDelimiter = ";";
@@ -17,6 +22,12 @@ public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<CsvOpt
     internal const string FileFormat = "yyyyMMdd_yyyyMMddHHmm";
     internal const string DefaultFolderPath = "C:\\CsvFiles\\";
 
+    /// <summary>
+    /// Generates a CSV report based on the requested UTC date and a list of input items with power volumes.
+    /// </summary>
+    /// <param name="requestedUtc">the requested UTC date</param>
+    /// <param name="rows">the list of power volumes retrieved from the external service</param>
+    /// <returns>bool indicating whether the report was generated</returns>
     public bool GenerateReport(DateTime requestedUtc, List<InputItemDto> inputItems)
     {
         if (inputItems == null || inputItems.Count == 0)

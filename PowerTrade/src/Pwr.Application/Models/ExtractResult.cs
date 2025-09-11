@@ -1,5 +1,8 @@
 ﻿namespace Pwr.Application.Models;
 
+/// <summary>
+/// Result of a data extraction operation, including success status, attempts made, completion time, and error details if applicable.
+/// </summary>
 public class ExtractResult
 {
     public bool IsSuccess { get; init; }

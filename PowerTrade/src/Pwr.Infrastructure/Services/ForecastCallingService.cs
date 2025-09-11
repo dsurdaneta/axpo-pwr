@@ -9,6 +9,11 @@ namespace Pwr.Infrastructure.Services;
 
 public class ForecastCallingService(ILogger<ForecastCallingService> logger, IPowerService powerService) : IForecastCallingService
 {
+    /// <summary>
+    /// Fetches the power trade forecast for the specified UTC date.
+    /// </summary>
+    /// <param name="requestedUtc">specified UTC date</param>
+    /// <returns>the list of power volumes retrieved from the external service</returns>
     public async Task<List<InputItemDto>> GetForecastAsync(DateTime requestedUtc)
     {
         var rows = new List<InputItemDto>();
@@ -40,6 +45,11 @@ public class ForecastCallingService(ILogger<ForecastCallingService> logger, IPow
         return rows;
     }
 
+    /// <summary>
+    /// Gets trades from the external power service.
+    /// </summary>
+    /// <param name="requestedUtc"></param>
+    /// <returns></returns>
     internal async Task<IEnumerable<PowerTrade>> GetTradesFromExternalServiceAsync(DateTime requestedUtc)
     {
         logger.LogInformation("Starting to get trades from external service for date {RequestedDate}", requestedUtc);
