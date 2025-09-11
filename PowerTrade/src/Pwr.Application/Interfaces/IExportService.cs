@@ -4,5 +4,5 @@ namespace Pwr.Application.Interfaces;
 
 public interface IExportService
 {
-    bool GenerateReport(DateTime requestedUtc, List<OutputItemDto> rows);
+    bool GenerateReport(DateTime requestedUtc, List<InputItemDto> rows);
 }

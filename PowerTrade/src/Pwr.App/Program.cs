@@ -10,6 +10,10 @@ internal class Program
 {
     static async Task Main(string[] args)
     {
+        //TODO create background service/worker
+        Console.WriteLine("Starting application...");
+        
+        //Setup Host
         var host = CreateHostBuilder(args).Build();
         //var requiredService = host.Services.GetRequiredService<ISomeServiceInterface>();
 

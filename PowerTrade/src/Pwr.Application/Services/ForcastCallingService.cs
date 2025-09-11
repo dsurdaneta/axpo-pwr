@@ -7,11 +7,11 @@ namespace Pwr.Application.Services;
 
 public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPowerService powerService) : IForcastCallingService
 {
-    public async Task<IEnumerable<OutputItemDto>> GetForcastAsync(DateTime requestedUtc)
+    public async Task<IEnumerable<InputItemDto>> GetForcastAsync(DateTime requestedUtc)
     {
         //TODO 
         //DST validation
-        var rows = new List<OutputItemDto>();
+        var rows = new List<InputItemDto>();
         var trades = await GetTradesFromExternalServiceAsync(requestedUtc);
         if (!trades.Any())
         {
@@ -28,7 +28,7 @@ public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPower
             var periodCounter = i + 1;
             var auxDate = new DateTime(requestedUtc.Year, requestedUtc.Month, requestedUtc.Day, requestedUtc.Hour, 0, 0);
             var periodAsDateTime = auxDate.AddHours(periodCounter);
-            rows.Add(new OutputItemDto { DateTime = periodAsDateTime, Volume = calculatedVolume });
+            rows.Add(new InputItemDto { DateTime = periodAsDateTime, Volume = calculatedVolume });
         }
 
         logger.LogInformation("Rows {RowsCount} generated for {RequestedDate}", rows.Count, requestedUtc);

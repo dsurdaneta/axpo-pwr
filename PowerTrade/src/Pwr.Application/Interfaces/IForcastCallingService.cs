@@ -4,5 +4,5 @@ namespace Pwr.Application.Interfaces;
 
 public interface IForcastCallingService
 {
-    Task<IEnumerable<OutputItemDto>> GetForcastAsync(DateTime requestedUtc);
+    Task<IEnumerable<InputItemDto>> GetForcastAsync(DateTime requestedUtc);
 }

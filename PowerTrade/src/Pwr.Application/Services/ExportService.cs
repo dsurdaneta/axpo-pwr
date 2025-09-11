@@ -14,9 +14,9 @@ public class ExportService(ILogger<ExportService> logger) : IExportService
     private const string FilePrefix = "PowerPosition";
     private const string FileFormat = "yyyyMMdd_yyyyMMddHHmm";
 
-    public bool GenerateReport(DateTime requestedUtc, List<OutputItemDto> rows)
+    public bool GenerateReport(DateTime requestedUtc, List<InputItemDto> inputItems)
     {
-        if (rows == null || rows.Count == 0)
+        if (inputItems == null || inputItems.Count == 0)
         {
             logger.LogWarning("No data available to generate report for date {RequestedDate}", requestedUtc);
             return false;
@@ -33,6 +33,8 @@ public class ExportService(ILogger<ExportService> logger) : IExportService
             //if config valu is null use constant defalt
             var datePart = requestedUtc.ToString(FileFormat);
             var fileName = $"{FilePrefix}_{datePart}.csv";
+
+            var rows = inputItems.Select(OutputItemDto.FromInputItemDto).ToList();
 
             var config = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = CsvDelimiter, Encoding = Encoding.UTF8 };
 
