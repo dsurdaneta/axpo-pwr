@@ -7,7 +7,7 @@ namespace Pwr.Application.Services;
 
 public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPowerService powerService) : IForcastCallingService
 {
-    public async Task<IEnumerable<InputItemDto>> GetForcastAsync(DateTime requestedUtc)
+    public async Task<List<InputItemDto>> GetForcastAsync(DateTime requestedUtc)
     {
         //TODO 
         //DST validation
