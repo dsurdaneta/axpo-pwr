@@ -1,6 +1,6 @@
 ﻿using Pwr.Domain.Models;
 
-namespace Pwr.Application.Interfaces;
+namespace Pwr.Infrastructure.Interfaces;
 
 public interface IExportService
 {

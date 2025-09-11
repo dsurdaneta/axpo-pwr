@@ -4,13 +4,13 @@ using Microsoft.Extensions.Logging;
 using Pwr.Domain.Models;
 using System.Globalization;
 using System.Text;
-using Pwr.Application.Interfaces;
 using Microsoft.Extensions.Options;
-using Pwr.Application.Options;
+using Pwr.Infrastructure.Interfaces;
+using Pwr.Infrastructure.Options;
 
-namespace Pwr.Application.Services;
+namespace Pwr.Infrastructure.Services;
 
-public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<ExtractTradesOptions> options) : IExportService
+public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<CsvOptions> options) : IExportService
 {
     internal const string CsvDelimiter = ";";
     internal const string FilePrefix = "PowerPosition";
@@ -24,7 +24,7 @@ public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<Extrac
             logger.LogWarning("No data available to generate report for date {RequestedDate}", requestedUtc);
             return false;
         }
-        
+
         var basePath = options.CurrentValue.FolderPath ?? DefaultFolderPath;
         logger.LogInformation("Starting to write CSV report for date {RequestedDate}", requestedUtc);
 

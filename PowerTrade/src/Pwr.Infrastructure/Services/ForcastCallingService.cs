@@ -1,9 +1,9 @@
 ﻿using Axpo;
 using Microsoft.Extensions.Logging;
-using Pwr.Application.Interfaces;
 using Pwr.Domain.Models;
+using Pwr.Infrastructure.Interfaces;
 
-namespace Pwr.Application.Services;
+namespace Pwr.Infrastructure.Services;
 
 public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPowerService powerService) : IForcastCallingService
 {
@@ -37,7 +37,7 @@ public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPower
     }
 
     internal async Task<IEnumerable<PowerTrade>> GetTradesFromExternalServiceAsync(DateTime requestedUtc)
-    {        
+    {
         logger.LogInformation("Starting to get trades from external service for date {RequestedDate}", requestedUtc);
 
         IEnumerable<PowerTrade> trades = new List<PowerTrade>();
