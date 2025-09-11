@@ -9,8 +9,7 @@ namespace Pwr.ConsoleApp;
 internal class Program
 {
     static async Task Main(string[] args)
-    {
-        //TODO create background service/worker
+    {        
         Console.WriteLine("Starting application...");
         
         //Setup Host

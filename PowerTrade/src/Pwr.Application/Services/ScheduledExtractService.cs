@@ -2,6 +2,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Pwr.Application.Interfaces;
+using Pwr.Application.Models;
 using Pwr.Application.Options;
 
 namespace Pwr.Application.Services;
@@ -9,25 +10,24 @@ namespace Pwr.Application.Services;
 public class ScheduledExtractService : BackgroundService, IScheduledExtractService
 {
     private readonly ILogger<ScheduledExtractService> _logger;
-    private readonly IForcastCallingService _forcastCallingService;
-    private readonly IExportService _exportService;
+    private readonly IExtractService _extractService;
+    private readonly IRetryService _retryService;
+    private readonly ITimerService _timerService;
     private readonly IOptionsMonitor<ExtractTradesOptions> _extractOptions;
-    private readonly Timer _timer;
-    private readonly object _lockObject = new();
-    private bool _isRunning = false;
     private DateTime _lastExtractTime = DateTime.MinValue;
 
     public ScheduledExtractService(
         ILogger<ScheduledExtractService> logger,
-        IForcastCallingService forcastCallingService,
-        IExportService exportService,
+        IExtractService extractService,
+        IRetryService retryService,
+        ITimerService timerService,
         IOptionsMonitor<ExtractTradesOptions> extractOptions)
     {
         _logger = logger;
-        _forcastCallingService = forcastCallingService;
-        _exportService = exportService;
+        _extractService = extractService;
+        _retryService = retryService;
+        _timerService = timerService;
         _extractOptions = extractOptions;
-        _timer = new Timer(ExecuteExtract, null, Timeout.Infinite, Timeout.Infinite);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,12 +35,11 @@ public class ScheduledExtractService : BackgroundService, IScheduledExtractServi
         _logger.LogInformation("ScheduledExtractService started");
 
         // Start the timer with the configured interval
-        var intervalMinutes = _extractOptions.CurrentValue.ExtractIntervalMinutes;
-        var intervalMs = (int)TimeSpan.FromMinutes(intervalMinutes).TotalMilliseconds;
-        
-        _timer.Change(intervalMs, intervalMs);
+        var intervalMs = GetIntervalMilliseconds();
+        _timerService.Start(intervalMs, () => ExecuteExtractAsync(stoppingToken));
 
-        _logger.LogInformation("Scheduled extract configured for every {IntervalMinutes} minutes", intervalMinutes);
+        _logger.LogInformation("Scheduled extract configured for every {IntervalMinutes} minutes", 
+            _extractOptions.CurrentValue.ExtractIntervalMinutes);
 
         // Listen for configuration changes
         _extractOptions.OnChange(OnConfigurationChanged);
@@ -59,132 +58,71 @@ public class ScheduledExtractService : BackgroundService, IScheduledExtractServi
     {
         _logger.LogInformation("Configuration changed. New interval: {IntervalMinutes} minutes", newOptions.ExtractIntervalMinutes);
         
-        var intervalMs = (int)TimeSpan.FromMinutes(newOptions.ExtractIntervalMinutes).TotalMilliseconds;
-        
-        _timer.Change(intervalMs, intervalMs);
+        var intervalMs = GetIntervalMilliseconds();
+        _timerService.UpdateInterval(intervalMs);
     }
 
-    private async void ExecuteExtract(object? state)
+    private async Task ExecuteExtractAsync(CancellationToken cancellationToken)
     {
-        lock (_lockObject)
-        {
-            if (_isRunning)
-            {
-                _logger.LogWarning("Previous extract is still running, skipping this scheduled execution");
-                return;
-            }
-            _isRunning = true;
-        }
-
         try
         {
-            await PerformExtractWithRetry();
-        }
-        finally
-        {
-            lock (_lockObject)
+            var context = CreateExtractContext();
+            var result = await _retryService.ExecuteWithRetryAsync(
+                () => _extractService.PerformExtractAsync(context, cancellationToken),
+                result => result.IsSuccess,
+                context,
+                cancellationToken);
+
+            if (result.IsSuccess)
             {
-                _isRunning = false;
+                _lastExtractTime = DateTime.UtcNow;
+                _logger.LogInformation(
+                    "Extract completed successfully for {RequestedUtc} after {Attempts} attempts at {LastExtractTime} [CorrelationId: {CorrelationId}]",
+                    context.RequestedUtc, result.AttemptsMade, _lastExtractTime, context.CorrelationId);
             }
+            else
+            {
+                _logger.LogCritical(
+                    "CRITICAL: Extract failed after {Attempts} attempts for {RequestedUtc}. Error: {ErrorMessage} [CorrelationId: {CorrelationId}]",
+                    result.AttemptsMade, context.RequestedUtc, result.ErrorMessage, context.CorrelationId);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Extract operation was cancelled");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error occurred during extract execution");
         }
     }
 
-    private async Task PerformExtractWithRetry()
+    private ExtractContext CreateExtractContext()
     {
-        // should request the forcast for the next day
-        var requestedUtc = DateTime.UtcNow.AddDays(1); 
-        var attempt = 0;
-        var success = false;
-        var maxRetryAttempts = _extractOptions.CurrentValue.MaxRetryAttempts;
-        var retryDelaySeconds = _extractOptions.CurrentValue.RetryDelaySeconds;
-
-        while (attempt < maxRetryAttempts && !success)
+        var options = _extractOptions.CurrentValue;
+        return new ExtractContext
         {
-            attempt++;
-            
-            try
-            {
-                _logger.LogInformation("Starting extract attempt {Attempt} for {RequestedUtc}", attempt, requestedUtc);
-                
-                // Get forecast data
-                var forecastData = await _forcastCallingService.GetForcastAsync(requestedUtc);
-                var forecastList = forecastData.ToList();
-
-                if (forecastList.Count == 0)
-                {
-                    _logger.LogWarning("No forecast data retrieved for {RequestedUtc}, attempt {Attempt}", requestedUtc, attempt);
-                    
-                    if (attempt < maxRetryAttempts)
-                    {
-                        await RetryWithDelay(retryDelaySeconds);
-                        continue;
-                    }
-                    else
-                    {
-                        _logger.LogError("Failed to retrieve forecast data after {MaxAttempts} attempts", maxRetryAttempts);
-                        return;
-                    }
-                }
-
-                // Generate report
-                var reportGenerated = _exportService.GenerateReport(requestedUtc, forecastList);
-                
-                if (reportGenerated)
-                {
-                    _lastExtractTime = DateTime.UtcNow;
-                    _logger.LogInformation("Extract completed successfully for {RequestedUtc} on attempt {Attempt} at {LastExtractTime}", requestedUtc, attempt, _lastExtractTime);                   
-                    success = true;
-                }
-                else
-                {
-                    _logger.LogError("Failed to generate report for {RequestedUtc}, attempt {Attempt}", requestedUtc, attempt);
-                    
-                    if (attempt < maxRetryAttempts)
-                    {
-                        await RetryWithDelay(retryDelaySeconds);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred during extract attempt {Attempt} for {RequestedUtc}", attempt, requestedUtc);
-                
-                if (attempt < maxRetryAttempts)
-                {
-                    await RetryWithDelay(retryDelaySeconds);
-                }
-                else
-                {
-                    _logger.LogError("All {MaxAttempts} extract attempts failed for {RequestedUtc}", maxRetryAttempts, requestedUtc);
-                }
-            }
-        }
-
-        if (!success)
-        {
-            _logger.LogCritical("CRITICAL: Extract failed after all retry attempts for {RequestedUtc}. Manual intervention may be required.", requestedUtc);
-        }
+            RequestedUtc = DateTime.UtcNow.AddDays(1), // Request forecast for next day
+            MaxRetryAttempts = options.MaxRetryAttempts,
+            RetryDelaySeconds = options.RetryDelaySeconds
+        };
     }
 
-    private async Task RetryWithDelay(int retryDelaySeconds)
-    {
-        _logger.LogInformation("Retrying in {RetryDelay} seconds...", retryDelaySeconds);
-        await Task.Delay(TimeSpan.FromSeconds(retryDelaySeconds));
-    }
+    private int GetIntervalMilliseconds() =>
+        (int)TimeSpan.FromMinutes(_extractOptions.CurrentValue.ExtractIntervalMinutes).TotalMilliseconds;
 
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("ScheduledExtractService is stopping");
         
-        _timer.Change(Timeout.Infinite, Timeout.Infinite);
-        _timer.Dispose();
+        _timerService.Stop();
         
         await base.StopAsync(cancellationToken);
     }
 
     public override void Dispose()
     {
-        _timer?.Dispose();
+        _timerService?.Dispose();
         base.Dispose();
     }
 }
