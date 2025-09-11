@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Pwr.Application.Interfaces;
 using Pwr.Application.Models;
-using Pwr.Domain.Models;
 using Pwr.Infrastructure.Interfaces;
 
 namespace Pwr.Application.Services;
