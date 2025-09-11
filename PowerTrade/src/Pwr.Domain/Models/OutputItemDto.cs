@@ -8,7 +8,7 @@ public class OutputItemDto
     public static OutputItemDto FromInputItemDto(InputItemDto input) 
         => new()
         {
-            DateTime = input.DateTime.ToUniversalIso8601(),
+            DateTime = input.DateTime.ToUniversalIso8601string(),
             Volume = input.Volume
         };
 }
