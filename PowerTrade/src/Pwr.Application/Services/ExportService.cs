@@ -7,6 +7,7 @@ using System.Text;
 using Pwr.Application.Interfaces;
 using Microsoft.Extensions.Options;
 using Pwr.Application.Options;
+using System.IO;
 
 namespace Pwr.Application.Services;
 
@@ -30,8 +31,10 @@ public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<Extrac
 
         try
         {
-            //TODO
-            //create output folder if does not exists
+            // Try to create the directory.
+            logger.LogInformation("Ensuring the output directory exists at path: {BasePath}", basePath);
+            var di = Directory.CreateDirectory(basePath);
+
             var datePart = requestedUtc.ToString(FileFormat);
             var fileName = $"{FilePrefix}_{datePart}.csv";
 
@@ -47,6 +50,11 @@ public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<Extrac
 
             logger.LogInformation("CSV report {FileName} created successfully", fileName);
             return true;
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            logger.LogError(e, "Permission denied when trying to create directory or file at path: {BasePath}", basePath);
+            return false;
         }
         catch (Exception ex)
         {
