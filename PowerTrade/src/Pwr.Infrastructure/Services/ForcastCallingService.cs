@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Pwr.Domain.Models;
 using Pwr.Infrastructure.Interfaces;
+using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Pwr.UnitTests")]
 namespace Pwr.Infrastructure.Services;
@@ -10,8 +11,6 @@ public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPower
 {
     public async Task<List<InputItemDto>> GetForcastAsync(DateTime requestedUtc)
     {
-        //TODO 
-        //DST validation
         var rows = new List<InputItemDto>();
         var trades = await GetTradesFromExternalServiceAsync(requestedUtc);
         if (!trades.Any())
@@ -27,8 +26,12 @@ public class ForcastCallingService(ILogger<ForcastCallingService> logger, IPower
         {
             var calculatedVolume = trades.Sum(t => t.Periods[i].Volume);
             var periodCounter = i + 1;
-            var auxDate = new DateTime(requestedUtc.Year, requestedUtc.Month, requestedUtc.Day, requestedUtc.Hour, 0, 0);
-            var periodAsDateTime = auxDate.AddHours(periodCounter);
+
+            // Simple DST-safe approach: work directly with UTC and add hours
+            // This avoids DST issues since we're working in UTC throughout
+            var auxDate = new DateTime(requestedUtc.Year, requestedUtc.Month, requestedUtc.Day, requestedUtc.Hour, 0, 0, kind: DateTimeKind.Utc);
+            var periodAsDateTime = auxDate.AddHours(periodCounter);            
+            
             rows.Add(new InputItemDto { DateTime = periodAsDateTime, Volume = calculatedVolume });
         }
 
