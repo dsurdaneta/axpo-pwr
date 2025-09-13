@@ -16,12 +16,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pwr.Application\Pwr.Application.csproj" />
+    <ProjectReference Include="..\Pwr.Infrastructure\Pwr.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="PowerService">
       <HintPath>..\..\assets\PowerServiceDll\PowerService.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
