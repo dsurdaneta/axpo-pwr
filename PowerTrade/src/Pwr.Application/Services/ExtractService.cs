@@ -50,7 +50,7 @@ public class ExtractService(
             // Generate report
             var reportGenerated = _exportService.GenerateReport(context.RequestedUtc, forecastList);
 
-            if (reportGenerated)
+            if (!string.IsNullOrWhiteSpace(reportGenerated))
             {
                 _logger.LogInformation(
                     "Extract completed successfully for {RequestedUtc} [CorrelationId: {CorrelationId}]",

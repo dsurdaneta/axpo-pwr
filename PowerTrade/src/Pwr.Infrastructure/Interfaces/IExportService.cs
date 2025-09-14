@@ -12,6 +12,6 @@ public interface IExportService
     /// </summary>
     /// <param name="requestedUtc">the requested UTC date</param>
     /// <param name="rows">the list of power volumes retrieved from the external service</param>
-    /// <returns>bool indicating whether the report was generated</returns>
-    bool GenerateReport(DateTime requestedUtc, List<InputItemDto> rows);
+    /// <returns>string indicating whether the report name if it was generated</returns>
+    string GenerateReport(DateTime requestedUtc, List<InputItemDto> rows);
 }

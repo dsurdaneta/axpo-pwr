@@ -28,12 +28,12 @@ public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<CsvOpt
     /// <param name="requestedUtc">the requested UTC date</param>
     /// <param name="rows">the list of power volumes retrieved from the external service</param>
     /// <returns>bool indicating whether the report was generated</returns>
-    public bool GenerateReport(DateTime requestedUtc, List<InputItemDto> inputItems)
+    public string GenerateReport(DateTime requestedUtc, List<InputItemDto> inputItems)
     {
         if (inputItems == null || inputItems.Count == 0)
         {
             logger.LogWarning("No data available to generate report for date {RequestedDate}", requestedUtc);
-            return false;
+            return string.Empty;
         }
 
         var basePath = options.CurrentValue.FolderPath ?? DefaultFolderPath;
@@ -60,19 +60,19 @@ public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<CsvOpt
 
             logger.LogInformation("CSV report {FileName} created successfully", fileName);
             Console.WriteLine($"Report generated successfully at path: {basePath}\\{fileName}");
-            return true;
+            return fileName;
         }
         catch (UnauthorizedAccessException e)
         {
             logger.LogError(e, "Permission denied when trying to create directory or file at path: {BasePath}", basePath);
             Console.WriteLine("Permission denied when trying to create directory or file.");
-            return false;
+            return string.Empty;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred while generating CSV report for date {RequestedDate}", requestedUtc);
             Console.WriteLine("Error occurred while generating CSV report.");
-            return false;
+            return string.Empty;
         }
     }
 }

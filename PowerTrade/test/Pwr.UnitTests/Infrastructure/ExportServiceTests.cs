@@ -33,7 +33,7 @@ public class ExportServiceTests
         var result = _exportService.GenerateReport(requestedUtc, emptyRows);
 
         // Assert
-        result.ShouldBeFalse();
+        result.ShouldBeEmpty();
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class ExportServiceTests
         var result = _exportService.GenerateReport(requestedUtc, nullRows!);
 
         // Assert
-        result.ShouldBeFalse();
+        result.ShouldBeEmpty();
     }
 
     [Fact]
@@ -65,7 +65,8 @@ public class ExportServiceTests
         var result = _exportService.GenerateReport(requestedUtc, rows);
 
         // Assert
-        result.ShouldBeTrue();
+        result.ShouldNotBeNullOrWhiteSpace();
+        result.ShouldBe("PowerPosition_20240601_202406011200.csv");
     }
 
     [Fact]
@@ -82,9 +83,8 @@ public class ExportServiceTests
         var result = _exportService.GenerateReport(requestedUtc, rows);
 
         // Assert
-        result.ShouldBeTrue();
-        // Note: In a real test, you would verify the file was created with the correct name
-        // Expected filename: PowerPosition_20240601_202406011200.csv
+        result.ShouldNotBeNullOrWhiteSpace();
+        result.ShouldBe("PowerPosition_20240601_202406011200.csv");
     }
 
     [Fact]
@@ -103,7 +103,8 @@ public class ExportServiceTests
         var result = _exportService.GenerateReport(requestedUtc, rows);
 
         // Assert
-        result.ShouldBeTrue();
+        result.ShouldNotBeNullOrWhiteSpace();
+        result.ShouldBe("PowerPosition_20240601_202406011200.csv");
     }
 
     [Fact]
@@ -120,7 +121,8 @@ public class ExportServiceTests
         var result = _exportService.GenerateReport(requestedUtc, rows);
 
         // Assert
-        result.ShouldBeTrue();
+        result.ShouldNotBeNullOrWhiteSpace();
+        result.ShouldBe("PowerPosition_20241231_202412312359.csv");
     }
 
     [Fact]
@@ -138,7 +140,7 @@ public class ExportServiceTests
         var result = _exportService.GenerateReport(requestedUtc, rows);
 
         // Assert
-        result.ShouldBeTrue();
+        result.ShouldNotBeNullOrWhiteSpace();
     }
 
     [Fact]
@@ -156,6 +158,6 @@ public class ExportServiceTests
         var result = _exportService.GenerateReport(requestedUtc, rows);
 
         // Assert
-        result.ShouldBeTrue();
+        result.ShouldNotBeNullOrWhiteSpace();
     }
 }

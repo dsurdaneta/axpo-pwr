@@ -57,50 +57,6 @@ public class RetryServiceTests
         result.ErrorMessage.ShouldNotBeNull();
     }
 
-    //[Fact]
-    //public async Task ExecuteWithRetryAsync_ExceptionThrown_RetriesAndReturnsFailure()
-    //{
-    //    // Arrange
-    //    var context = new ExtractContext
-    //    {
-    //        RequestedUtc = DateTime.UtcNow,
-    //        MaxRetryAttempts = 2,
-    //        RetryDelaySeconds = 1
-    //    };
-
-    //    var operation = () => throw new InvalidOperationException("Test exception");
-    //    var successCondition = (string result) => result == "success";
-
-    //    // Act
-    //    var result = await _retryService.ExecuteWithRetryAsync(operation, successCondition, context);
-
-    //    // Assert
-    //    result.IsSuccess.ShouldBeFalse();
-    //    result.AttemptsMade.ShouldBe(2);
-    //    result.ErrorMessage.ShouldNotBeNull();
-    //    result.Exception.ShouldNotBeNull();
-    //    result.Exception!.Message.ShouldBe("Test exception");
-    //}
-
-    //[Fact]
-    //public async Task ExecuteWithRetryAsync_OperationCanceledException_Throws()
-    //{
-    //    // Arrange
-    //    var context = new ExtractContext
-    //    {
-    //        RequestedUtc = DateTime.UtcNow,
-    //        MaxRetryAttempts = 3,
-    //        RetryDelaySeconds = 1
-    //    };
-
-    //    var operation = () => throw new OperationCanceledException("Cancelled");
-    //    var successCondition = (string result) => result == "success";
-
-    //    // Act & Assert
-    //    await Should.ThrowAsync<OperationCanceledException>(async () =>
-    //        await _retryService.ExecuteWithRetryAsync(operation, successCondition, context));
-    //}
-
     [Fact]
     public async Task ExecuteWithRetryAsync_SuccessOnSecondAttempt_ReturnsSuccess()
     {

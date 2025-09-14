@@ -42,7 +42,7 @@ public class ExtractServiceTests
         };
 
         _forcastCallingServiceMock.GetForecastAsync(context.RequestedUtc).Returns(forecastData);
-        _exportServiceMock.GenerateReport(context.RequestedUtc, forecastData).Returns(true);
+        _exportServiceMock.GenerateReport(context.RequestedUtc, forecastData).Returns("SomeFileName");
 
         // Act
         var result = await _extractService.PerformExtractAsync(context);
@@ -92,7 +92,7 @@ public class ExtractServiceTests
         };
 
         _forcastCallingServiceMock.GetForecastAsync(context.RequestedUtc).Returns(forecastData);
-        _exportServiceMock.GenerateReport(context.RequestedUtc, forecastData).Returns(false);
+        _exportServiceMock.GenerateReport(context.RequestedUtc, forecastData).Returns(string.Empty);
 
         // Act
         var result = await _extractService.PerformExtractAsync(context);
