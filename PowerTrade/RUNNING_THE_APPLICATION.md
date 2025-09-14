@@ -18,7 +18,7 @@
 1. Open Command Prompt or PowerShell
 2. Navigate to the project directory:
    ```bash
-   cd "C:\Users\DanielUrdanetaOropez\source\repos\Daniel_Urdaneta\axpo-pwr\PowerTrade\src\Pwr.App"
+   cd "C:\ProjecPath\PowerTrade\src\Pwr.App"
    ```
 3. Run the application:
    ```bash
@@ -28,7 +28,7 @@
 ### Method 3: Using .NET CLI from Solution Root
 1. Navigate to the solution root:
    ```bash
-   cd "C:\Users\DanielUrdanetaOropez\source\repos\Daniel_Urdaneta\axpo-pwr\PowerTrade"
+   cd "C:\ProjecPath\PowerTrade"
    ```
 2. Run the application:
    ```bash
@@ -119,10 +119,30 @@ The application will create CSV files in the configured folder with names like:
 
 Each file contains power trading data for specific time periods.
 
+## Running Tests
+
+The project includes comprehensive test coverage with 100 tests:
+
+### **Run All Tests**
+```bash
+dotnet test
+```
+
+### **Run Tests with Coverage**
+```bash
+dotnet test --collect:"XPlat Code Coverage"
+```
+
+### **Test Categories**
+- **Application Layer**: 34 tests (services, retry logic, scheduling)
+- **Infrastructure Layer**: 14 tests (export, forecast calling)
+- **Domain Layer**: 52 tests (models, DTOs, extensions)
+
 ## Next Steps
 
 Once the application is running:
 1. **Monitor the console output** for any errors or warnings
 2. **Check the CSV output folder** for generated files
-3. **Adjust configuration** as needed for your requirements
-4. **Review logs** for any issues or performance insights
+3. **Run tests** to verify functionality: `dotnet test`
+4. **Adjust configuration** as needed for your requirements
+5. **Review logs** for any issues or performance insights

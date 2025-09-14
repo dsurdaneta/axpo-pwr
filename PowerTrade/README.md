@@ -126,7 +126,7 @@ This project follows **Clean Architecture** principles with clear separation of 
 ```json
 {
   "ExtractTradesOptions": {
-    "ExtractIntervalMinutes": 3,    // How often to run extraction
+    "ExtractIntervalMinutes": 15,    // How often to run extraction
     "MaxRetryAttempts": 3,          // Number of retry attempts
     "RetryDelaySeconds": 30         // Delay between retries
   }
@@ -145,16 +145,24 @@ This project follows **Clean Architecture** principles with clear separation of 
 ## 🧪 Testing Strategy
 
 ### **Comprehensive Test Coverage**
+- **100 Total Tests**: Comprehensive coverage across all layers
 - **Unit Tests**: Each service tested in isolation
-- **Integration Tests**: Cross-service functionality
-- **DST Tests**: Specific tests for Daylight Saving Time scenarios
-- **Edge Cases**: Year boundaries, leap years, DST transitions
+- **Edge Cases**: 35 tests covering year boundaries, leap years, DST transitions, and boundary values
+- **Error Handling**: tests covering exception scenarios and failure modes
 
 ### **Test Categories**
-- **Service Tests**: Individual service functionality
-- **Configuration Tests**: Settings validation
-- **Error Handling Tests**: Exception scenarios
-- **DST Tests**: Time zone transition handling
+- **Service Tests**: Individual service functionality with internal method access
+- **Configuration Tests**: Settings validation and edge cases
+- **Error Handling Tests**: Exception scenarios and retry mechanisms
+- **DST Tests**: Time zone transition handling and UTC safety
+- **Boundary Value Tests**: 15 tests covering min/max values and extreme inputs
+
+### **Internal Method Testing**
+The application uses `InternalsVisibleTo` attribute to allow the test project to access internal methods for comprehensive testing:
+- `CreateExtractContext()`: Context creation and configuration
+- `GetIntervalMilliseconds()`: Timer interval calculations
+- `ExecuteExtractAsync()`: Core extraction execution
+- `OnConfigurationChanged()`: Dynamic configuration updates
 
 ## 🚦 How It Works
 
