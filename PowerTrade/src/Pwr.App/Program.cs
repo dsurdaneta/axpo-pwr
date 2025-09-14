@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pwr.Application;
+using Pwr.Application.Interfaces;
 using Pwr.Infrastructure;
 
 namespace Pwr.ConsoleApp;
@@ -20,9 +21,10 @@ internal class Program
         {
             Console.WriteLine("Starting background services...");
             
-            // Start the host - this will start all registered background services
             await host.StartAsync();
-            
+            var scheduled = host.Services.GetRequiredService<IScheduledExtractService>();
+            await scheduled.StartAsync(default);
+
             Console.WriteLine("Application started successfully!");
             Console.WriteLine("Background services are running:");
             Console.WriteLine("- ScheduledExtractService: Automated data extraction");

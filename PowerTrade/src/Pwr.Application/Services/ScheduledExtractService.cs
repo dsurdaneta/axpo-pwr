@@ -96,10 +96,12 @@ public class ScheduledExtractService(
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Extract operation was cancelled");
+            Console.WriteLine("Extract operation was cancelled");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error occurred during extract execution");
+            Console.WriteLine("Unexpected error occurred during extract execution: " + ex.Message);
         }
     }
 
