@@ -87,12 +87,15 @@ public class RetryService(ILogger<RetryService> logger) : IRetryService
             "All {MaxAttempts} operation attempts failed for {RequestedUtc} [CorrelationId: {CorrelationId}]",
             context.MaxRetryAttempts, context.RequestedUtc, context.CorrelationId);
 
+        Console.WriteLine(errorMessage);
+
         return ExtractResult.Failure(attempt, errorMessage, lastException);
     }
 
-    private async Task RetryWithDelay(int retryDelaySeconds, CancellationToken cancellationToken)
+    internal async Task RetryWithDelay(int retryDelaySeconds, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Retrying in {RetryDelay} seconds...", retryDelaySeconds);
+        Console.WriteLine($"Retrying in {retryDelaySeconds} seconds...");
         await Task.Delay(TimeSpan.FromSeconds(retryDelaySeconds), cancellationToken);
     }
 }

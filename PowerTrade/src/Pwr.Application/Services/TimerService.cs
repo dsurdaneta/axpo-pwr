@@ -43,7 +43,7 @@ public class TimerService(ILogger<TimerService> logger) : ITimerService
         _logger.LogInformation("Timer interval updated to {IntervalMs}ms", intervalMs);
     }
 
-    private async void ExecuteCallback(object? state)
+    internal async void ExecuteCallback(object? state)
     {
         if (_disposed || _callback == null) return;
 

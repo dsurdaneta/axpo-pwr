@@ -16,11 +16,13 @@ public class ForecastCallingService(ILogger<ForecastCallingService> logger, IPow
     /// <returns>the list of power volumes retrieved from the external service</returns>
     public async Task<List<InputItemDto>> GetForecastAsync(DateTime requestedUtc)
     {
+        Console.WriteLine($"Getting forecast for {requestedUtc:yyyy-MM-dd HH:mm} UTC");
         var rows = new List<InputItemDto>();
         var trades = await GetTradesFromExternalServiceAsync(requestedUtc);
         if (!trades.Any())
         {
             logger.LogWarning("No trades retrieved for date {RequestedDate}", requestedUtc);
+            Console.WriteLine("No trades retrieved");
             return rows;
         }
 
@@ -41,6 +43,7 @@ public class ForecastCallingService(ILogger<ForecastCallingService> logger, IPow
         }
 
         logger.LogInformation("Rows {RowsCount} generated for {RequestedDate}", rows.Count, requestedUtc);
+        Console.WriteLine("Rows generated: " + rows.Count);
 
         return rows;
     }
@@ -53,6 +56,7 @@ public class ForecastCallingService(ILogger<ForecastCallingService> logger, IPow
     internal async Task<IEnumerable<PowerTrade>> GetTradesFromExternalServiceAsync(DateTime requestedUtc)
     {
         logger.LogInformation("Starting to get trades from external service for date {RequestedDate}", requestedUtc);
+        Console.WriteLine("Getting trades from external service...");
 
         IEnumerable<PowerTrade> trades = new List<PowerTrade>();
 

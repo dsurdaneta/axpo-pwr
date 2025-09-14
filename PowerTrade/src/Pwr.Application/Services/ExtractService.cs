@@ -31,6 +31,7 @@ public class ExtractService(
         _logger.LogInformation(
             "Starting extract for {RequestedUtc} [CorrelationId: {CorrelationId}]",
             context.RequestedUtc, context.CorrelationId);
+        Console.WriteLine("PerformExtractAsync called");
 
         try
         {
@@ -42,6 +43,7 @@ public class ExtractService(
                 _logger.LogWarning(
                     "No forecast data retrieved for {RequestedUtc} [CorrelationId: {CorrelationId}]",
                     context.RequestedUtc, context.CorrelationId);
+                Console.WriteLine("No forecast data retrieved");
                 return ExtractResult.Failure(1, "No forecast data available");
             }
 
@@ -53,9 +55,10 @@ public class ExtractService(
                 _logger.LogInformation(
                     "Extract completed successfully for {RequestedUtc} [CorrelationId: {CorrelationId}]",
                     context.RequestedUtc, context.CorrelationId);
+                Console.WriteLine("Report generated successfully");
                 return ExtractResult.Success(1);
             }
-
+            Console.WriteLine("Report generation failed");
             return ExtractResult.Failure(1, "Failed to generate report");
         }
         catch (Exception ex)
@@ -63,6 +66,7 @@ public class ExtractService(
             _logger.LogError(ex,
                 "Error occurred during extract for {RequestedUtc} [CorrelationId: {CorrelationId}]",
                 context.RequestedUtc, context.CorrelationId);
+            Console.WriteLine("Extract operation failed");
             return ExtractResult.Failure(1, "Extract operation failed", ex);
         }
     }

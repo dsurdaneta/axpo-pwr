@@ -59,16 +59,19 @@ public class ExportService(ILogger<ExportService> logger, IOptionsMonitor<CsvOpt
             }
 
             logger.LogInformation("CSV report {FileName} created successfully", fileName);
+            Console.WriteLine($"Report generated successfully at path: {basePath}\\{fileName}");
             return true;
         }
         catch (UnauthorizedAccessException e)
         {
             logger.LogError(e, "Permission denied when trying to create directory or file at path: {BasePath}", basePath);
+            Console.WriteLine("Permission denied when trying to create directory or file.");
             return false;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred while generating CSV report for date {RequestedDate}", requestedUtc);
+            Console.WriteLine("Error occurred while generating CSV report.");
             return false;
         }
     }

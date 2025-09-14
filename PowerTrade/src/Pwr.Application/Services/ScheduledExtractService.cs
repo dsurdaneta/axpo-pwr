@@ -4,7 +4,9 @@ using Microsoft.Extensions.Options;
 using Pwr.Application.Interfaces;
 using Pwr.Application.Models;
 using Pwr.Application.Options;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Pwr.UnitTests")]
 namespace Pwr.Application.Services;
 
 /// <summary>
@@ -58,7 +60,7 @@ public class ScheduledExtractService(
         }
     }
 
-    private void OnConfigurationChanged(ExtractTradesOptions newOptions)
+    internal void OnConfigurationChanged(ExtractTradesOptions newOptions)
     {
         _logger.LogInformation("Configuration changed. New interval: {IntervalMinutes} minutes", newOptions.ExtractIntervalMinutes);
         
@@ -66,7 +68,7 @@ public class ScheduledExtractService(
         _timerService.UpdateInterval(intervalMs);
     }
 
-    private async Task ExecuteExtractAsync(CancellationToken cancellationToken)
+    internal async Task ExecuteExtractAsync(CancellationToken cancellationToken)
     {
         try
         {
@@ -101,7 +103,7 @@ public class ScheduledExtractService(
         }
     }
 
-    private ExtractContext CreateExtractContext()
+    internal ExtractContext CreateExtractContext()
     {
         var options = _extractOptions.CurrentValue;
         return new ExtractContext
@@ -112,7 +114,7 @@ public class ScheduledExtractService(
         };
     }
 
-    private int GetIntervalMilliseconds() =>
+    internal int GetIntervalMilliseconds() =>
         (int)TimeSpan.FromMinutes(_extractOptions.CurrentValue.ExtractIntervalMinutes).TotalMilliseconds;
 
     public override async Task StopAsync(CancellationToken cancellationToken)
