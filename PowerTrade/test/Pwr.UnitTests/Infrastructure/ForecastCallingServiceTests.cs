@@ -6,7 +6,7 @@ using Pwr.Domain.Models;
 using Pwr.Infrastructure.Services;
 using Shouldly;
 
-namespace Pwr.UnitTests.Infrastructure;
+namespace Pwr.Tests.UnitTests.Infrastructure;
 
 public class ForecastCallingServiceTests
 {
@@ -24,7 +24,7 @@ public class ForecastCallingServiceTests
     public async Task GetForcastAsync_ReturnsAggregatedVolumes()
     {
         // Arrange
-        var requestedDate = new DateTime(2024, 6, 1, 0, 0, 0, DateTimeKind.Utc);        
+        var requestedDate = new DateTime(2024, 6, 1, 0, 0, 0, DateTimeKind.Utc);
         var trade1 = PowerTrade.Create(requestedDate, 2);
         var trade2 = PowerTrade.Create(requestedDate, 2);
         var trades = new List<PowerTrade> { trade1, trade2 };
@@ -100,7 +100,7 @@ public class ForecastCallingServiceTests
         // Arrange
         // DST fall back in Europe (last Sunday in October 2024)
         // Clocks fall back from 3:00 AM to 2:00 AM, so there are two 2:00 AMs
-        var requestedDate = new DateTime(2024, 10, 27, 0, 0, 0, DateTimeKind.Utc);        
+        var requestedDate = new DateTime(2024, 10, 27, 0, 0, 0, DateTimeKind.Utc);
         var trade = GetFullDayTrades(requestedDate);
         _powerServiceMock.GetTradesAsync(requestedDate).Returns([trade]);
 
@@ -130,7 +130,7 @@ public class ForecastCallingServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.Count.ShouldBe(4);
-        
+
         // All times should be consecutive UTC hours
         result[0].DateTime.ShouldBe(new DateTime(2024, 3, 31, 13, 0, 0, DateTimeKind.Utc));
         result[1].DateTime.ShouldBe(new DateTime(2024, 3, 31, 14, 0, 0, DateTimeKind.Utc));
@@ -173,14 +173,14 @@ public class ForecastCallingServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.Count.ShouldBe(4);
-        
+
         // Verify times cross year boundary correctly
         result[0].DateTime.ShouldBe(new DateTime(2024, 12, 31, 23, 0, 0, DateTimeKind.Utc));
         result[1].DateTime.ShouldBe(new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc));
         result[2].DateTime.ShouldBe(new DateTime(2025, 1, 1, 1, 0, 0, DateTimeKind.Utc));
         result[3].DateTime.ShouldBe(new DateTime(2025, 1, 1, 2, 0, 0, DateTimeKind.Utc));
     }
-    
+
     private static PowerTrade GetFullDayTrades(DateTime requestedDate)
     {
         // 24 periods for full day

@@ -1,7 +1,7 @@
 ﻿using Pwr.Domain;
 using Shouldly;
 
-namespace Pwr.UnitTests.Domain;
+namespace Pwr.Tests.UnitTests.Domain;
 
 public class DateTimeExtensionsTests
 {

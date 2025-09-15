@@ -3,7 +3,7 @@ using Pwr.Application.Models;
 using Pwr.Application.Services;
 using Shouldly;
 
-namespace Pwr.UnitTests.Application;
+namespace Pwr.Tests.UnitTests.Application;
 
 public class RetryServiceTests
 {

@@ -1,7 +1,7 @@
 using Pwr.Domain.Models;
 using Shouldly;
 
-namespace Pwr.UnitTests.Domain;
+namespace Pwr.Tests.UnitTests.Domain;
 
 public class OutputItemDtoTests
 {

@@ -1,7 +1,7 @@
 using Pwr.Application.Models;
 using Shouldly;
 
-namespace Pwr.UnitTests.Application.Models;
+namespace Pwr.Tests.UnitTests.Application.Models;
 
 public class ExtractContextTests
 {

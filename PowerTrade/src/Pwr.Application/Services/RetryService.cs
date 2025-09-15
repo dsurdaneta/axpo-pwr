@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Logging;
 using Pwr.Application.Interfaces;
 using Pwr.Application.Models;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Pwr.Tests.UnitTests")]
 namespace Pwr.Application.Services;
 
 /// <summary>

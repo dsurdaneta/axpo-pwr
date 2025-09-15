@@ -8,7 +8,7 @@ using Pwr.Application.Options;
 using Pwr.Application.Services;
 using Shouldly;
 
-namespace Pwr.UnitTests.Application;
+namespace Pwr.Tests.UnitTests.Application;
 
 public class ScheduledExtractServiceTests
 {

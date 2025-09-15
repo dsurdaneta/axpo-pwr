@@ -7,7 +7,7 @@ using Pwr.Domain.Models;
 using Pwr.Infrastructure.Interfaces;
 using Shouldly;
 
-namespace Pwr.UnitTests.Application;
+namespace Pwr.Tests.UnitTests.Application;
 
 public class ExtractServiceTests
 {
@@ -34,7 +34,7 @@ public class ExtractServiceTests
 
         var forecastData = new List<InputItemDto>
         {
-            new() 
+            new()
             {
                 DateTime = new DateTime(2024, 6, 1, 1, 0, 0),
                 Volume = 5

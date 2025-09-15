@@ -6,7 +6,7 @@ using NSubstitute;
 using Pwr.Domain.Models;
 using Shouldly;
 
-namespace Pwr.UnitTests.Infrastructure;
+namespace Pwr.Tests.UnitTests.Infrastructure;
 
 public class ExportServiceTests
 {
@@ -17,7 +17,7 @@ public class ExportServiceTests
     {
         _optionsMock = Substitute.For<IOptionsMonitor<CsvOptions>>();
         _optionsMock.CurrentValue.Returns(new CsvOptions { FolderPath = "C:\\TestOutput" });
-        
+
         var loggerMock = NullLogger<ExportService>.Instance;
         _exportService = new ExportService(loggerMock, _optionsMock);
     }

@@ -1,7 +1,7 @@
 using Pwr.Domain.Models;
 using Shouldly;
 
-namespace Pwr.UnitTests.Domain;
+namespace Pwr.Tests.UnitTests.Domain;
 
 public class InputItemDtoTests
 {
@@ -12,7 +12,7 @@ public class InputItemDtoTests
         var dto = new InputItemDto();
 
         // Assert
-        dto.DateTime.ShouldBe(default(DateTime));
+        dto.DateTime.ShouldBe(default);
         dto.Volume.ShouldBe(0.0);
     }
 

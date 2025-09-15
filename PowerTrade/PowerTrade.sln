@@ -20,11 +20,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pwr.Domain", "src\Pwr.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pwr.Application", "src\Pwr.Application\Pwr.Application.csproj", "{09C538CE-761E-43A2-A604-EDBF21885856}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pwr.Infrastructure", "src\Pwr.Infrastructure\Pwr.Infrastructure.csproj", "{189D45F2-BFBB-4B5A-B722-44F074877B39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pwr.Infrastructure", "src\Pwr.Infrastructure\Pwr.Infrastructure.csproj", "{189D45F2-BFBB-4B5A-B722-44F074877B39}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{760BA6EC-D8A6-4FF1-AD75-2081273EE813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pwr.UnitTests", "test\Pwr.UnitTests\Pwr.UnitTests.csproj", "{9B2EBB0A-D9BE-490A-AAAA-8E4C5CAA94FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pwr.Tests.UnitTests", "test\Pwr.UnitTests\Pwr.Tests.UnitTests.csproj", "{9B2EBB0A-D9BE-490A-AAAA-8E4C5CAA94FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

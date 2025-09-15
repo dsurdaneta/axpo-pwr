@@ -2,7 +2,7 @@
 using Pwr.Application.Services;
 using Shouldly;
 
-namespace Pwr.UnitTests.Application;
+namespace Pwr.Tests.UnitTests.Application;
 
 public class TimerServiceTests
 {
@@ -95,7 +95,7 @@ public class TimerServiceTests
         // Arrange
         var firstCallbackInvoked = false;
         var secondCallbackInvoked = false;
-        
+
         Func<Task> firstCallback = () =>
         {
             firstCallbackInvoked = true;

@@ -6,7 +6,7 @@ using Pwr.Application.Models;
 using Pwr.Application.Options;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Pwr.UnitTests")]
+[assembly: InternalsVisibleTo("Pwr.Tests.UnitTests")]
 namespace Pwr.Application.Services;
 
 /// <summary>
