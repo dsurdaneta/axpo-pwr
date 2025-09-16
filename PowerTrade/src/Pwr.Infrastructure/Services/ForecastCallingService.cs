@@ -5,6 +5,7 @@ using Pwr.Infrastructure.Interfaces;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Pwr.Tests.UnitTests")]
+[assembly: InternalsVisibleTo("Pwr.Tests.Benchmarks")]
 namespace Pwr.Infrastructure.Services;
 
 public class ForecastCallingService(ILogger<ForecastCallingService> logger, IPowerService powerService) : IForecastCallingService

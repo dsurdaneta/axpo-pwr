@@ -4,6 +4,7 @@ using Pwr.Application.Models;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Pwr.Tests.UnitTests")]
+[assembly: InternalsVisibleTo("Pwr.Tests.Benchmarks")]
 namespace Pwr.Application.Services;
 
 /// <summary>

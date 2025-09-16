@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Pwr.Tests.Benchmarks.SimpleBenchmarks-20250916-210042</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.26100.4851)
+13th Gen Intel Core i5-1335U, 1 CPU, 12 logical and 10 physical cores
+.NET SDK 9.0.304
+  [Host]   : .NET 8.0.10 (8.0.1024.46610), X64 RyuJIT AVX2
+  .NET 8.0 : .NET 8.0.10 (8.0.1024.46610), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>Job=.NET 8.0  Runtime=.NET 8.0  
+</code></pre>
+
+<table>
+<thead><tr><th>Method                     </th><th>intervalMinutes</th><th>count</th><th>Mean       </th><th>Error    </th><th>StdDev   </th><th>Median     </th><th>Min        </th><th>Max        </th><th>Gen0</th><th>Gen1</th><th>Gen2</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>CreateExtractContext_Performance</td><td>?</td><td>?</td><td>214.3648 ns</td><td>4.3028 ns</td><td>9.3539 ns</td><td>213.8409 ns</td><td>198.1918 ns</td><td>236.4881 ns</td><td>0.0267</td><td>-</td><td>-</td><td>168 B</td>
+</tr><tr><td>CreateSuccessResult_Performance</td><td>?</td><td>?</td><td>63.3169 ns</td><td>1.1886 ns</td><td>1.0536 ns</td><td>63.3209 ns</td><td>61.8736 ns</td><td>65.7341 ns</td><td>0.0076</td><td>-</td><td>-</td><td>48 B</td>
+</tr><tr><td>CreateFailureResult_Performance</td><td>?</td><td>?</td><td>58.5512 ns</td><td>0.9925 ns</td><td>0.9283 ns</td><td>58.0621 ns</td><td>57.5822 ns</td><td>60.6259 ns</td><td>0.0076</td><td>-</td><td>-</td><td>48 B</td>
+</tr><tr><td>GenerateFileName_Performance</td><td>?</td><td>?</td><td>214.8540 ns</td><td>3.6872 ns</td><td>8.1705 ns</td><td>212.4630 ns</td><td>201.9686 ns</td><td>237.6965 ns</td><td>0.0267</td><td>-</td><td>-</td><td>168 B</td>
+</tr><tr><td>GenerateCorrelationId_Performance</td><td>?</td><td>?</td><td>141.4009 ns</td><td>2.1142 ns</td><td>1.8742 ns</td><td>140.7371 ns</td><td>139.0981 ns</td><td>144.5802 ns</td><td>0.0204</td><td>-</td><td>-</td><td>128 B</td>
+</tr><tr><td>ValidateInterval_Performance</td><td>0</td><td>?</td><td>0.0242 ns</td><td>0.0230 ns</td><td>0.0555 ns</td><td>0.0000 ns</td><td>0.0000 ns</td><td>0.2207 ns</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>ValidateInterval_Performance</td><td>1</td><td>?</td><td>0.0674 ns</td><td>0.0411 ns</td><td>0.1173 ns</td><td>0.0000 ns</td><td>0.0000 ns</td><td>0.4628 ns</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>ValidateInterval_Performance</td><td>60</td><td>?</td><td>0.1185 ns</td><td>0.0504 ns</td><td>0.1168 ns</td><td>0.0855 ns</td><td>0.0000 ns</td><td>0.4450 ns</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>GenerateTestData_Performance</td><td>?</td><td>100</td><td>3,321.2129 ns</td><td>66.2987 ns</td><td>146.9133 ns</td><td>3,300.5798 ns</td><td>3,108.4248 ns</td><td>3,712.8326 ns</td><td>0.9079</td><td>0.0153</td><td>-</td><td>5696 B</td>
+</tr><tr><td>CalculateTotalVolume_Performance</td><td>?</td><td>100</td><td>4,317.9821 ns</td><td>85.7531 ns</td><td>207.1035 ns</td><td>4,333.3496 ns</td><td>2,808.4988 ns</td><td>4,561.3461 ns</td><td>0.9117</td><td>0.0153</td><td>-</td><td>5736 B</td>
+</tr><tr><td>CountValidItems_Performance</td><td>?</td><td>100</td><td>4,451.2267 ns</td><td>133.3815 ns</td><td>393.2783 ns</td><td>4,496.1216 ns</td><td>2,235.2165 ns</td><td>4,876.6010 ns</td><td>0.9117</td><td>0.0153</td><td>-</td><td>5736 B</td>
+</tr><tr><td>FilterPositiveVolumes_Performance</td><td>?</td><td>100</td><td>4,167.0145 ns</td><td>113.4050 ns</td><td>334.3772 ns</td><td>4,189.7663 ns</td><td>2,297.8886 ns</td><td>4,577.7611 ns</td><td>1.0986</td><td>0.0191</td><td>-</td><td>6912 B</td>
+</tr><tr><td>ConvertToOutputItems_Performance</td><td>?</td><td>100</td><td>12,508.2741 ns</td><td>623.2095 ns</td><td>1,827.7657 ns</td><td>12,952.7145 ns</td><td>5,785.5644 ns</td><td>14,502.1523 ns</td><td>3.6011</td><td>0.1526</td><td>-</td><td>22624 B</td>
+</tr><tr><td>GenerateCsvContent_Performance</td><td>?</td><td>100</td><td>40,826.7730 ns</td><td>1,455.8360 ns</td><td>4,269.7151 ns</td><td>41,439.8895 ns</td><td>25,495.7031 ns</td><td>45,802.2644 ns</td><td>7.6294</td><td>0.3662</td><td>-</td><td>48000 B</td>
+</tr><tr><td>SortByDateTime_Performance</td><td>?</td><td>100</td><td>6,287.6253 ns</td><td>85.7745 ns</td><td>102.1085 ns</td><td>6,269.5007 ns</td><td>6,157.3875 ns</td><td>6,535.3374 ns</td><td>1.4000</td><td>0.0229</td><td>-</td><td>8800 B</td>
+</tr><tr><td>GroupByHour_Performance</td><td>?</td><td>100</td><td>11,013.5137 ns</td><td>216.9478 ns</td><td>274.3695 ns</td><td>11,002.6588 ns</td><td>10,511.6341 ns</td><td>11,564.0953 ns</td><td>2.2583</td><td>0.0534</td><td>-</td><td>14176 B</td>
+</tr><tr><td>ValidateData_Performance</td><td>?</td><td>100</td><td>3,240.9066 ns</td><td>63.8918 ns</td><td>129.0645 ns</td><td>3,233.7755 ns</td><td>3,025.7961 ns</td><td>3,588.8857 ns</td><td>0.9079</td><td>0.0153</td><td>-</td><td>5696 B</td>
+</tr><tr><td>GenerateTestData_Performance</td><td>?</td><td>1000</td><td>25,924.0782 ns</td><td>625.6609 ns</td><td>1,844.7754 ns</td><td>25,856.5521 ns</td><td>12,115.5769 ns</td><td>29,166.4528 ns</td><td>7.7820</td><td>0.9613</td><td>-</td><td>48904 B</td>
+</tr><tr><td>CalculateTotalVolume_Performance</td><td>?</td><td>1000</td><td>35,531.1255 ns</td><td>702.1903 ns</td><td>1,849.8500 ns</td><td>35,213.5834 ns</td><td>25,105.8960 ns</td><td>39,895.6085 ns</td><td>7.7820</td><td>0.9460</td><td>-</td><td>48944 B</td>
+</tr><tr><td>CountValidItems_Performance</td><td>?</td><td>1000</td><td>37,891.0823 ns</td><td>729.1135 ns</td><td>948.0535 ns</td><td>37,858.6365 ns</td><td>36,126.6144 ns</td><td>39,658.5541 ns</td><td>7.7820</td><td>1.0681</td><td>-</td><td>48944 B</td>
+</tr><tr><td>FilterPositiveVolumes_Performance</td><td>?</td><td>1000</td><td>32,281.1491 ns</td><td>1,188.3824 ns</td><td>3,466.5672 ns</td><td>32,798.4909 ns</td><td>15,425.6973 ns</td><td>36,115.5228 ns</td><td>9.1248</td><td>1.0071</td><td>-</td><td>57360 B</td>
+</tr><tr><td>ConvertToOutputItems_Performance</td><td>?</td><td>1000</td><td>116,916.6393 ns</td><td>6,329.1554 ns</td><td>18,462.4434 ns</td><td>120,546.8750 ns</td><td>55,582.2144 ns</td><td>134,906.0059 ns</td><td>34.5459</td><td>0.8545</td><td>-</td><td>217032 B</td>
+</tr><tr><td>GenerateCsvContent_Performance</td><td>?</td><td>1000</td><td>398,490.5094 ns</td><td>7,164.7792 ns</td><td>6,701.9389 ns</td><td>396,627.4658 ns</td><td>389,066.1621 ns</td><td>409,996.4355 ns</td><td>62.2559</td><td>7.5684</td><td>-</td><td>396376 B</td>
+</tr><tr><td>SortByDateTime_Performance</td><td>?</td><td>1000</td><td>67,616.4748 ns</td><td>1,326.4098 ns</td><td>1,240.7246 ns</td><td>67,843.7592 ns</td><td>65,482.3486 ns</td><td>69,692.8741 ns</td><td>12.2986</td><td>1.9531</td><td>-</td><td>77208 B</td>
+</tr><tr><td>GroupByHour_Performance</td><td>?</td><td>1000</td><td>65,916.6866 ns</td><td>1,827.8069 ns</td><td>5,273.6407 ns</td><td>66,133.7738 ns</td><td>33,886.0535 ns</td><td>70,969.4336 ns</td><td>13.1226</td><td>1.8311</td><td>-</td><td>82376 B</td>
+</tr><tr><td>ValidateData_Performance</td><td>?</td><td>1000</td><td>24,768.6640 ns</td><td>631.3530 ns</td><td>1,831.6694 ns</td><td>24,899.1028 ns</td><td>11,698.4680 ns</td><td>27,045.4300 ns</td><td>7.7820</td><td>0.9613</td><td>-</td><td>48904 B</td>
+</tr><tr><td>ValidateInterval_Performance</td><td>1440</td><td>?</td><td>0.1303 ns</td><td>0.0559 ns</td><td>0.1649 ns</td><td>0.0571 ns</td><td>0.0000 ns</td><td>0.7917 ns</td><td>-</td><td>-</td><td>-</td><td>-</td>
+</tr><tr><td>GenerateTestData_Performance</td><td>?</td><td>10000</td><td>383,379.0197 ns</td><td>7,639.1937 ns</td><td>17,398.3099 ns</td><td>379,009.2773 ns</td><td>356,071.9238 ns</td><td>428,482.0801 ns</td><td>83.0078</td><td>82.5195</td><td>41.5039</td><td>582774 B</td>
+</tr><tr><td>CalculateTotalVolume_Performance</td><td>?</td><td>10000</td><td>567,732.1719 ns</td><td>52,712.7931 ns</td><td>155,424.8598 ns</td><td>504,013.5498 ns</td><td>398,329.5410 ns</td><td>883,163.9648 ns</td><td>83.0078</td><td>82.5195</td><td>41.5039</td><td>582814 B</td>
+</tr><tr><td>CountValidItems_Performance</td><td>?</td><td>10000</td><td>484,428.9292 ns</td><td>19,438.0746 ns</td><td>57,313.6016 ns</td><td>462,207.4219 ns</td><td>420,600.8789 ns</td><td>638,690.5762 ns</td><td>83.0078</td><td>82.5195</td><td>41.5039</td><td>582814 B</td>
+</tr><tr><td>FilterPositiveVolumes_Performance</td><td>?</td><td>10000</td><td>948,036.4277 ns</td><td>53,826.7412 ns</td><td>158,709.3609 ns</td><td>910,734.9121 ns</td><td>738,418.0664 ns</td><td>1,358,709.3750 ns</td><td>124.0234</td><td>82.0313</td><td>41.0156</td><td>714206 B</td>
+</tr><tr><td>ConvertToOutputItems_Performance</td><td>?</td><td>10000</td><td>1,513,126.1101 ns</td><td>57,604.4020 ns</td><td>168,034.7444 ns</td><td>1,477,552.1484 ns</td><td>1,264,159.1797 ns</td><td>1,951,179.8828 ns</td><td>337.8906</td><td>220.7031</td><td>109.3750</td><td>2262926 B</td>
+</tr><tr><td>GenerateCsvContent_Performance</td><td>?</td><td>10000</td><td>3,576,542.0531 ns</td><td>158,099.9744 ns</td><td>448,503.3125 ns</td><td>3,455,150.3906 ns</td><td>2,989,458.5938 ns</td><td>4,988,261.3281 ns</td><td>496.0938</td><td>371.0938</td><td>246.0938</td><td>3918484 B</td>
+</tr><tr><td>SortByDateTime_Performance</td><td>?</td><td>10000</td><td>945,323.0261 ns</td><td>48,606.7349 ns</td><td>138,677.7498 ns</td><td>921,808.7891 ns</td><td>772,364.4531 ns</td><td>1,367,242.3828 ns</td><td>123.0469</td><td>82.0313</td><td>41.0156</td><td>863079 B</td>
+</tr><tr><td>GroupByHour_Performance</td><td>?</td><td>10000</td><td>1,036,223.6797 ns</td><td>58,694.5398 ns</td><td>173,062.1747 ns</td><td>1,000,815.4297 ns</td><td>809,455.6641 ns</td><td>1,482,254.4922 ns</td><td>123.0469</td><td>82.0313</td><td>41.0156</td><td>790007 B</td>
+</tr><tr><td>ValidateData_Performance</td><td>?</td><td>10000</td><td>424,388.2394 ns</td><td>17,204.3101 ns</td><td>50,185.7800 ns</td><td>424,410.4980 ns</td><td>352,763.4521 ns</td><td>546,232.3975 ns</td><td>83.0078</td><td>82.5195</td><td>41.5039</td><td>582774 B</td>
+</tr></tbody></table>
+</body>
+</html>

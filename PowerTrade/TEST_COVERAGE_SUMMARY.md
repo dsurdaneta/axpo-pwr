@@ -154,12 +154,6 @@ This document summarizes the comprehensive unit tests added to improve code cove
 ## 🎯 Test Coverage Statistics
 
 ### **Total Tests**: 100 tests
-### **Test Categories**:
-- **Unit Tests**: 92 tests
-- **Integration Tests**: 8 tests (DST scenarios)
-- **Edge Case Tests**: 35 tests
-- **Error Handling Tests**: 20 tests
-- **Boundary Value Tests**: 15 tests
 
 ### **Coverage Areas**:
 - ✅ **Success Scenarios**: All happy path scenarios covered
